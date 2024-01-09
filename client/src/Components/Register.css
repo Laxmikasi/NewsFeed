@@ -1,0 +1,83 @@
+.RegForm{
+    text-align: center;
+}
+
+.Reg{
+     background: url(../Assets/img1.jfif); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+.flex231{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Reg1{
+    margin-top: 5%;
+    border: 1px solid #fff;
+    width: 30%;
+    background-image:linear-gradient(90deg,  #808080,#87ceeb);
+    border-radius: 10px;
+    /* box-shadow: 6px -6px 25px aliceblue; */
+    color:#fff;
+    padding-bottom: 20px;
+    line-height: 50px;
+}
+.Reg-but{
+    margin: 3%;
+    padding: 10px;
+    background-color:blue;
+    color:#fff;
+    border-radius: 5px;
+
+}
+.Reg-but:hover{
+    transform: scale(1.05);
+}
+.Reg-input{
+    padding: 7px;
+    width: 50%;
+    background-color:#fff;
+    border-radius: 5px
+}
+.Reg-input::placeholder{
+    color: black;
+}
+.Reg-input:focus{
+background-color: aliceblue;
+opacity: 1;
+transform: scale(1.05);
+}
+/* .password-toggle{
+    position: absolute;
+    left: 248px;
+    bottom: 127px;
+    background: transparent;
+    border: none;
+
+    
+} */
+@media screen and (max-width:768px) {
+    .Reg1{
+        width: 300px;
+    }
+    
+}
+
+@media screen and (max-width:425px) {
+    .Reg1{
+        width: 300px;
+        position: relative;
+        left: 60px;
+    
+    }
+    
+}

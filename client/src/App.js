@@ -1,10 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import React,{useState,createContext} from 'react'
+import Register from './Components/Register';
+import Navbar from './Components/Navbar';
+import Login from './Components/Login';
+import ForgotPassword from './Components/ForgotPassword';
+import Profile from './Components/Profile';
+
+ 
 function App() {
+  
   return (
-    <div className="App">
-      <p>Welcome to NewsFeed</p>
+    <div >
+          
+   <Router>
+    <Routes>
+    <Route path="/" element={<Navbar/>}/>   
+       
+    <Route path='/register' element={<Register/>}/> 
+    
+    <Route path='/login' element={<Login/>}/> 
+    <Route path='/forgotPassword' element={<ForgotPassword/>}/> 
+    <Route path='/profile' element={<Profile/>}/> 
+       
+    </Routes>
+    </Router>   
+
+           
     </div>
   );
 }
