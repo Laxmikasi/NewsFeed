@@ -27,11 +27,13 @@ db.once('open', () => {
 
 const userRoutes = require('./routes/userRoutes');
 const loginRoutes = require('./routes/loginRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 
 
  app.use('/api', userRoutes); // Use the combined routes
  app.use('/api', loginRoutes);
+ app.use('/api', postRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -13,8 +13,11 @@ function Profile() {
   const [videos, setVideos] = useState([]);
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState('');
   const [content, setContent] = useState('');
-  const [video, setVideo] = useState(null);
+  const [image, setImage] = useState([]);
+  const [token, setToken] = useState([]);
 
   useEffect(() => {
     // Fetch videos when the component mounts
@@ -33,28 +36,43 @@ function Profile() {
     setContent(e.target.value);
   };
 
-  const handleVideoChange = (e) => {
-    setVideo(e.target.files[0]);
+  const handleImageChange = (e) => {
+    setImage(e.target.file);
   };
 
-  const handleUpload = () => {
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('subtitle', subtitle);
-    formData.append('content', content);
-    formData.append('video', video);
-
-    axios.post('http://localhost:5003/upload', formData)
-      .then(response => {
-        console.log(response.data.message);
-        // After successful upload, fetch videos again to update the list
-        axios.get('http://localhost:5003/videos')
-          .then(response => setVideos(response.data))
-          .catch(error => console.error('Error fetching videos:', error));
-      })
-      .catch(error => console.error('Error uploading video:', error));
+  const handleUpload = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const postData = {
+        title: title,
+        subtitle: subtitle,
+        content: content,
+        image: image,
+      };
+  
+      const response = await axios.post(
+        `http://localhost:5000/api/addPost`,
+        postData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            'x-token': token, // Include the user's token in the headers
+          },
+        }
+      );
+  
+      console.log(response);
+      setError("");
+      alert("Post added successfully.");
+    } catch (error) {
+      console.error(error);
+      setError("Internal Server Error");
+    } finally {
+      setSubmitting(false);
+    }
   };
-
+  
   return (
     <div>
       <div className='main-formsback'>
@@ -188,7 +206,9 @@ function Profile() {
           <div className='viedochange'>
             <div className='displayrowchange'>
               <div className='viedoss'>
-          <input type="file" onChange={handleVideoChange}  className='choose'/>
+          <input type="file"
+           onChange={handleImageChange} 
+            className='choose'/>
           </div>
           <div className='display'>
           <div className='displaycolumn1'>
@@ -220,7 +240,7 @@ function Profile() {
           </div>
           </div>
           <div className='heading'>
-            <label className='head'>Headlins</label>
+            <label className='head'>Headlines</label>
             <br/>
             <input type="text"
              placeholder="Enter title"

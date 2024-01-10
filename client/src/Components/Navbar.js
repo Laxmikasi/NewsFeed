@@ -11,7 +11,7 @@ function Navbar() {
         <div className='main-Logo'>
           <img className='nf-logo' src='https://as1.ftcdn.net/v2/jpg/04/08/44/62/1000_F_408446246_Lq0KqLi6ETZxS4SLpRgx1RAw7QIoAwPL.jpg' alt='nf-logo-alt-tag' />
           <div className='newsfeed-name'>
-            <span className='newsfeed'>News feed</span>
+            <span className='newsfeed'>News Feed</span>
           </div>
         </div>
         <div className='div-profile-icon'>

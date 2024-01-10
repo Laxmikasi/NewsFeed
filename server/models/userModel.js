@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
         type : String,
         required:true,
     },
+
+    post: [{ 
+        image:String,
+         title:String ,
+         subtitle: String ,
+         content: String,
+         
+        }],  
    
   })
   

@@ -27,13 +27,13 @@
   
   .newsfeed-name {
     display: flex;
-    margin-left: 35vw;
+    margin-left: 30vw;
   }
   
   .newsfeed {
     margin-left: 40px; /* Adjust as needed */
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: larger;
+    font-size: 1.8rem;
   }
   
   .div-profile-icon {
