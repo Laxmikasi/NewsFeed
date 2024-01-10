@@ -6,7 +6,8 @@ import Navbar from './Components/Navbar';
 import Login from './Components/Login';
 import ForgotPassword from './Components/ForgotPassword';
 import Profile from './Components/Profile';
-
+import ResetPassword from './Components/ResetPassword';
+import Home from './Components/Home';
  
 function App() {
   
@@ -15,12 +16,13 @@ function App() {
           
    <Router>
     <Routes>
-    <Route path="/" element={<Navbar/>}/>   
+    <Route path="/" element={<Home/>}/>   
        
     <Route path='/register' element={<Register/>}/> 
     
     <Route path='/login' element={<Login/>}/> 
     <Route path='/forgotPassword' element={<ForgotPassword/>}/> 
+    <Route path='/resetPassword' element={<ResetPassword/>}/> 
     <Route path='/profile' element={<Profile/>}/> 
        
     </Routes>

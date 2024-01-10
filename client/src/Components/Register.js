@@ -92,7 +92,7 @@ const validatePassword = (password) => {
     <>
     
     <div className='Reg'>
-    <Navbar/>
+    
     <div className='flex231'>
       <div className='Reg1'> 
       <h2 style={{textAlign:'center'}}>Register Here</h2>

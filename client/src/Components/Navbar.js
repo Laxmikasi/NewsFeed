@@ -21,8 +21,11 @@ function Navbar() {
            */}
         </div>
         <div className='signin-button1'>
+        <Link to="/register">
+          <button className='signin-button'>SIGN UP</button>
+          </Link>
           <Link to="/login">
-          <button className='signin-button'>SIGN IN</button>
+          <button className='signup-button'>SIGN IN</button>
           </Link>
         </div>
         {/* <div className='signin-button2'>

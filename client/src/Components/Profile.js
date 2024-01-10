@@ -222,19 +222,31 @@ function Profile() {
           <div className='heading'>
             <label className='head'>Headlins</label>
             <br/>
-            <input type="text" placeholder="Enter title" value={title} onChange={handleTitleChange} className='input12'/>
+            <input type="text"
+             placeholder="Enter title"
+              value={title}
+               onChange={handleTitleChange} 
+               className='input12'/>
 
           </div>
           <div className='heading'>
             <label className='Subhead'> Sub Headings</label>
             <br/>
-            <input type="text" placeholder="Enter subtitle" value={subtitle} onChange={handleSubTitleChange} className='input12' />
+            <input type="text"
+             placeholder="Enter subtitle"
+              value={subtitle} 
+              onChange={handleSubTitleChange} 
+              className='input12' />
             
           </div>
           <div className='heading'>
             <label className='head'> Contents</label>
             <br/>
-            <input type="text" placeholder="Enter content" value={content} onChange={handleContentChange}  className='inputcontents'/>
+            <input type="text" 
+            placeholder="Enter content"
+             value={content} 
+             onChange={handleContentChange} 
+              className='inputcontents'/>
             
           </div>
           <div className='save'>

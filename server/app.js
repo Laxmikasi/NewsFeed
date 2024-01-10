@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 
-mongoose.connect('mongodb://localhost:27017/News', {
+mongoose.connect('mongodb+srv://kasireddylaxmi66040:1234@cluster0.wrtaxpl.mongodb.net/NewsFeed', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   
