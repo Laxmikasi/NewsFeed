@@ -1,63 +1,43 @@
-// const mongoose = require('mongoose');
-
-// const userSchema = new mongoose.Schema({
-//     firstName :{
-//         type : String,
-//         required : true,
-//     },
-
-//     lastName :{
-//         type : String,
-//         required : true,
-//     },
-   
-//     phone :{
-//         type : String,
-//         required : true,
-//     },
-
-
-//     email :{
-//         type : String,
-//         required : true,
-//         unique : true,
-//     },
-//     password :{
-//         type : String,
-//         required:true,
-//     },
-
-//     post: [{ 
-//         image:String,
-//          title:String ,
-//          subtitle: String ,
-//          content: String,
-         
-//         }],  
-   
-//   })
-  
-//   const User = mongoose.model('User', userSchema);
-  
-//   module.exports = User;
-// userModel.js
-
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  // Your user schema definition
-  lastName: String,
-  phone: String,
-  email: String,
-  password: String,
-  post: [{
-    image: String,
-    title: String,
-    subtitle: String,
-    content: String,
-  }],
-});
+    firstName :{
+        type : String,
+        required : true,
+    },
 
-const User = mongoose.model('User', userSchema);
+    lastName :{
+        type : String,
+        required : true,
+    },
+   
+    phone :{
+        type : String,
+        required : true,
+    },
+
+
+    email :{
+        type : String,
+        required : true,
+        unique : true,
+    },
+    password :{
+        type : String,
+        required:true,
+    },
+
+    post: [{ 
+        image:String,
+         title:String ,
+         subtitle: String ,
+         content: String,
+         
+        }],  
+   
+  })
+  
+  const User = mongoose.model('User', userSchema);
+  
 
 module.exports = User;

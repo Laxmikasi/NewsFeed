@@ -38,6 +38,3 @@ exports.addPost =  async (req, res) => {
   }
 };
 
-module.exports = {
-  addPost,
-};
