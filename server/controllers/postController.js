@@ -1,13 +1,34 @@
 const User = require('../models/userModel');
 const multer = require('multer');
-const upload = multer();
 
-exports.addPost = upload.none(), async (req, res) => {
-  const { image, title, subtitle, content } = req.body;
 
+const storage = multer.diskStorage({
+    destination: 'uploads/', // Choose a folder to store uploaded files
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    },
+  });
+  
+  const upload = multer({ storage });
+  
+
+
+exports.addPost = upload.single('image'), async (req, res) => {
+  
   try {
+    const userId = req.user.id;
+    console.log("hai");
+
+    const {  title, subtitle, content } = req.body;
+
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+
     const token = req.headers['x-token'];
-    const customer = await User.findOne({ token });
+    console.log('Received Token in Controller:', token);
+
+    const customer = await User.findOne( {_id:userId} );
+    console.log('Result of User.findOne:', customer);
+
 
     if (!customer) {
       return res.status(404).json({ error: "Customer not found." });

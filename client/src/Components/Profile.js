@@ -11,13 +11,20 @@ import { BiLogOut } from "react-icons/bi";
 
 function Profile() {
   const [videos, setVideos] = useState([]);
-  const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
+  
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState('');
-  const [content, setContent] = useState('');
-  const [image, setImage] = useState([]);
-  const [token, setToken] = useState([]);
+  const [formData, setFormData] = useState({
+    image: '',
+    title: '',
+    subtitle: '',
+    content: '',
+    
+  });
+ 
+  const [token] = useState(localStorage.getItem('token'));
+  
+  console.log(token);
 
   useEffect(() => {
     // Fetch videos when the component mounts
@@ -26,37 +33,40 @@ function Profile() {
       .catch(error => console.error('Error fetching videos:', error));
   }, []);
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-  const handleSubTitleChange = (e) => {
-    setSubtitle(e.target.value);
-  };
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.file);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({
+      ...formData,
+      image: file,
+    });
   };
+  
 
+  
   const handleUpload = async (e) => {
     e.preventDefault();
   
     try {
-      const postData = {
-        title: title,
-        subtitle: subtitle,
-        content: content,
-        image: image,
-      };
-  
+      const formDataWithPicture = new FormData();
+      formDataWithPicture.append('image', formData.image);
+      formDataWithPicture.append('title', formData.title);
+      formDataWithPicture.append('subtitle', formData.subtitle);
+      formDataWithPicture.append('content', formData.content);
+      
       const response = await axios.post(
         `http://localhost:5000/api/addPost`,
-        postData,
+        formDataWithPicture,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             'x-token': token, // Include the user's token in the headers
           },
         }
@@ -206,9 +216,11 @@ function Profile() {
           <div className='viedochange'>
             <div className='displayrowchange'>
               <div className='viedoss'>
-          <input type="file"
-           onChange={handleImageChange} 
-            className='choose'/>
+              <input type="file"
+                 accept="image/*" 
+                 name="image"
+                  onChange={handleFileChange}
+                  className='choose' />
           </div>
           <div className='display'>
           <div className='displaycolumn1'>
@@ -244,8 +256,9 @@ function Profile() {
             <br/>
             <input type="text"
              placeholder="Enter title"
-              value={title}
-               onChange={handleTitleChange} 
+              value={formData.title}
+              name="title"
+               onChange={handleInputChange} 
                className='input12'/>
 
           </div>
@@ -254,8 +267,9 @@ function Profile() {
             <br/>
             <input type="text"
              placeholder="Enter subtitle"
-              value={subtitle} 
-              onChange={handleSubTitleChange} 
+              value={formData.subtitle} 
+              name="subtitle"
+              onChange={handleInputChange} 
               className='input12' />
             
           </div>
@@ -264,8 +278,9 @@ function Profile() {
             <br/>
             <input type="text" 
             placeholder="Enter content"
-             value={content} 
-             onChange={handleContentChange} 
+            name="content"
+             value={formData.content} 
+             onChange={handleInputChange} 
               className='inputcontents'/>
             
           </div>

@@ -25,6 +25,10 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+
+
+
+
 const userRoutes = require('./routes/userRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const postRoutes = require('./routes/postRoutes');
