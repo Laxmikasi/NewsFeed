@@ -24,30 +24,29 @@ function Profile() {
  
   const [token] = useState(localStorage.getItem('token'));
   
-  console.log(token);
+  // console.log(token);
 
-  useEffect(() => {
-    // Fetch videos when the component mounts
-    axios.get('http://localhost:5000/videos')
-      .then(response => setVideos(response.data))
-      .catch(error => console.error('Error fetching videos:', error));
-  }, []);
+  // useEffect(() => {
+  //   // Fetch videos when the component mounts
+  //   axios.get('http://localhost:5000/videos')
+  //     .then(response => setVideos(response.data))
+  //     .catch(error => console.error('Error fetching videos:', error));
+  // }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [e.target.name]: e.target.value,
     });
   };
-
+  
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
     setFormData({
       ...formData,
-      image: file,
+      image: e.target.files[0],
     });
   };
+  
   
 
   
@@ -56,32 +55,34 @@ function Profile() {
   
     try {
       const formDataWithPicture = new FormData();
-      formDataWithPicture.append('image', formData.image);
       formDataWithPicture.append('title', formData.title);
       formDataWithPicture.append('subtitle', formData.subtitle);
       formDataWithPicture.append('content', formData.content);
-      
+      formDataWithPicture.append('image', formData.image);
+  
       const response = await axios.post(
         `http://localhost:5000/api/addPost`,
         formDataWithPicture,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
-            'x-token': token, // Include the user's token in the headers
+            'x-token': token,
+            'Content-Type': 'multipart/form-data', // Add this header
           },
         }
       );
   
       console.log(response);
-      setError("");
-      alert("Post added successfully.");
+      setError('');
+      alert('Post added successfully.');
     } catch (error) {
       console.error(error);
-      setError("Internal Server Error");
+      setError('Internal Server Error');
     } finally {
       setSubmitting(false);
     }
   };
+  
+  
   
   return (
     <div>
