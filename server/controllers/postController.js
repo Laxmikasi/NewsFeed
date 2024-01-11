@@ -26,7 +26,6 @@ exports.addPost =  async (req, res) => {
       return res.status(404).json({ error: 'Customer not found.' });
     }
 
-    // Assuming post is an array in your user model
     customer.post.push({ image, title, subtitle, content });
     await customer.save();
 
@@ -34,5 +33,11 @@ exports.addPost =  async (req, res) => {
   } catch (error) {
     console.error('Error saving post data:', error.message);
     res.status(500).json({ error: 'Error saving post data.' });
+    console.error('Error saving post data:', error.message);
+    res.status(500).json({ error: 'Error saving post data.' });
   }
+};
+
+module.exports = {
+  addPost,
 };
