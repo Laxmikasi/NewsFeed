@@ -5,6 +5,8 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 
 // Define routes for appointments
-router.post('/addPost',authMiddleware, postController.addPost);
+router.post('/post', postController.addPost);
+// router.get('/getPost', postController.getAllPosts);
+
 
 module.exports = router;
