@@ -15,7 +15,7 @@ function Profile() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState('');
   const [formData, setFormData] = useState({
-    image: '',
+    image:'',
     title: '',
     subtitle: '',
     content: '',
@@ -44,7 +44,6 @@ function Profile() {
       [name]: value,
     }));
   };
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
   
@@ -54,8 +53,7 @@ function Profile() {
         image: file,
       }));
   
-      // Log the formData to ensure it's correct
-      console.log('FormData:', formData);
+      console.log('State after updating image:', formData);
     }
   };
   
@@ -126,14 +124,14 @@ function Profile() {
   // };
   const handleUpload = async (e) => {
     e.preventDefault();
-    
+  
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append('image', formData.image);
+      formDataToSend.append('image', formData.image); 
       formDataToSend.append('title', formData.title);
       formDataToSend.append('subtitle', formData.subtitle);
       formDataToSend.append('content', formData.content);
-      
+  
       // Log the formData just before making the API request
       console.log('FormData before API request:', formDataToSend);
   
@@ -141,7 +139,6 @@ function Profile() {
       await axios.post('http://localhost:5000/api/post', formDataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data', 
         },
       });
   
@@ -152,8 +149,10 @@ function Profile() {
     }
   };
   
-  
-  
+
+
+
+
 
 
 
@@ -291,11 +290,14 @@ function Profile() {
             <div className='viedochange'>
               <div className='displayrowchange'>
                 <div className='viedoss'>
-                  <input type="file"
+                  <input
+                    type="file"
                     accept="image/*"
-                    name="image"
+                    name="image" 
                     onChange={handleFileChange}
-                    className='choose' />
+                    className='choose'
+                  />
+
                 </div>
                 <div className='display'>
                   <div className='displaycolumn1'>
