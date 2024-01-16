@@ -4,7 +4,7 @@
     justify-content: center;
     height: 100vh;
     /* background-color: #f4f4f4; */
-    background: url(../Assets/img4.jfif); 
+    background: url('https://newsfeed.org/wp-content/uploads/mobile-smartphone-analytics2-ss-1920.jpg'); 
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -12,12 +12,15 @@
   }
   
   .LoginForm {
-    background-color:#fff;
+    background-color:transparent;
     color:rgb(44, 41, 41);
     border: 1px solid #fff;
     padding: 40px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 4px 40px black;
+    position: absolute;
+    right: 100px;
+  
   }
   
   .LoginForm-h2 {
@@ -49,7 +52,7 @@
   
   .LoginForm-but {
     background-color:blue;
-    width: 320px;
+    width: 325px;
     color: #fff;
     padding: 12px;
     border: none;
@@ -95,4 +98,17 @@
 
 .Toastify__progress-bar {
   background: #fff;
+}
+@media (max-width: 768px) {
+  .LoginForm {
+     position: absolute;
+     right: 170px;
+  }
+}
+@media (max-width: 425px) {
+  .LoginForm {
+    padding: 10px;
+     position: absolute;
+     right: 41px;
+  }
 }
