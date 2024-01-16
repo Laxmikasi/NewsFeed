@@ -8,6 +8,7 @@ import ForgotPassword from './Components/ForgotPassword';
 import Profile from './Components/Profile';
 import ResetPassword from './Components/ResetPassword';
 import Home from './Components/Home';
+import PostForm from './Components/PostForm';
  
 function App() {
   
@@ -24,6 +25,11 @@ function App() {
     <Route path='/forgotPassword' element={<ForgotPassword/>}/> 
     <Route path='/resetPassword' element={<ResetPassword/>}/> 
     <Route path='/profile' element={<Profile/>}/> 
+    <Route path='/postForm' element={<PostForm/>}/> 
+    <Route
+                path="/reset_password/:id/:token"
+                element={<ForgotPassword />}
+              />
        
     </Routes>
     </Router>   

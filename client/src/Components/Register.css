@@ -1,15 +1,19 @@
 .RegForm{
     text-align: center;
 }
+.regform{
+    background-image: url('https://newsfeed.org/wp-content/uploads/mobile-smartphone-analytics2-ss-1920.jpg');
+    background-size: cover;
+}
 
 .Reg{
-     background: url(../Assets/img4.jfif); 
+     /* background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fnewspaper-laptop&psig=AOvVaw37Q8BC88CcM6MpeidWlGBY&ust=1705244593820000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCOjXjqjR2oMDFQAAAAAdAAAAABAI'); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     
@@ -24,37 +28,50 @@
     margin-top: 5%;
     border: 1px solid #fff;
     width: 30%;
-    background-image:linear-gradient(90deg,  #808080,#87ceeb);
+    /* background-image:linear-gradient(90deg,  #808080,#87ceeb); */
     border-radius: 10px;
     /* box-shadow: 6px -6px 25px aliceblue; */
-    color:#fff;
+    color:black;
     padding-bottom: 20px;
     line-height: 50px;
+    background-color: #fff;
+    background: transparent;
+    margin-left: 60%;
 }
 .Reg-but{
     margin: 3%;
-    padding: 10px;
+    width: 250px;
+    padding:10px 20px;
     background-color:blue;
     color:#fff;
     border-radius: 5px;
+    font-size: large;
 
 }
 .Reg-but:hover{
     transform: scale(1.05);
 }
 .Reg-input{
-    padding: 7px;
-    width: 50%;
+    width: 220px;
+    padding: 12px;
+    margin-bottom: 15px;
     background-color:#fff;
-    border-radius: 5px
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #ccc;
+    font-size: large;
+    
 }
-.Reg-input::placeholder{
-    color: black;
-}
+
 .Reg-input:focus{
 background-color: aliceblue;
 opacity: 1;
 transform: scale(1.05);
+}
+
+.login-link{
+    margin-left: 60px;
+    font-size: large;
 }
 /* .password-toggle{
     position: absolute;

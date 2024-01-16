@@ -33,7 +33,7 @@ const Login = () => {
         // localStorage.setItem('email' , email)
 
         // Display success message using toast.success
-        toast.success('Login successful', { position: 'top-center', autoClose: 1000 });
+        toast.success('Login successful');
   
         // Set the user data using the login function
         // login({ token, email }); 
@@ -71,7 +71,7 @@ const Login = () => {
   return (
     <div className="Login">
       <div className="LoginForm">
-        <h2 className='LoginForm-h2'>Login</h2>
+        <h1 className='LoginForm-h2'>Login</h1>
         {error && <p className="ErrorMessage">{error}</p>}
         <form onSubmit={handleSubmit}>
           <label className='LoginForm-label' htmlFor="email">Email:</label>
@@ -97,14 +97,16 @@ const Login = () => {
             onChange={handleInputChange}
           />
           <div className="FormLinks">
-            <Link to="/forgotPassword" style={{textDecorationLine:'none',position:'relative',left:'156px'}}>Forgot Password?</Link>
-          </div>
+            
           <button className='LoginForm-but' type="submit">
             Login
           </button>
+          </div>
         </form>
         <div className="FormLinks">
-          <p>
+        <Link to="/forgotPassword" style={{textDecorationLine:'none',position:'relative',left:'156px'}}>Forgot Password?</Link>
+          
+          <p className='register-link'>
             Don't have an account? <Link to="/register" style={{textDecorationLine:'none'}}>Register Here</Link>
           </p>
         </div>

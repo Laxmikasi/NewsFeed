@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from 'react-toastify';
@@ -89,7 +89,7 @@ const validatePassword = (password) => {
 ;
 
   return (
-    <>
+    <div className='regform'>
     
     <div className='Reg'>
     
@@ -185,12 +185,19 @@ const validatePassword = (password) => {
           {submitting ? 'Submitting...' : 'Submit'}
         </button>
       </form>
+
+      <div className='login-link'>
+   Have already an account? <Link to="/login" style={{textDecorationLine:'none'}}>Login here</Link>
+   </div>
     </div>
+   
+
     <ToastContainer position="top-center" autoClose={3000} />
 
     </div>
     </div> 
-    </>
+    </div>
+    
   );
 };
 

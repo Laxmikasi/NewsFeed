@@ -1,26 +1,25 @@
-import {React,useState} from 'react';
-import{Link} from "react-router-dom"
-import { FaLock } from "react-icons/fa";
-import { CiMail } from "react-icons/ci";
-import { FcLock } from "react-icons/fc";
+import React, { useState, useEffect } from 'react';
+import { Link ,useNavigate} from 'react-router-dom';
+import { FcLock } from 'react-icons/fc';
 import './ForgotPassword.css';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const ForgotPassword = () => {
 
-
-  const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
+  const navigate=useNavigate();
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState('');
   const [showOtpField, setShowOtpField] = useState(false);
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Send a request to your backend to initiate the OTP sending
-      const response = await fetch("http://localhost:5555/api/forgot", {
-        method: "POST",
+      const response = await fetch('http://localhost:5000/api/forgot', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
       });
@@ -30,11 +29,10 @@ const ForgotPassword = () => {
       if (response.ok) {
         setShowOtpField(true);
       } else {
-        // Handle error response
-        console.error("Failed to send OTP");
+        console.error('Failed to send OTP');
       }
     } catch (error) {
-      console.error("Error sending request:", error);
+      console.error('Error sending request:', error);
     }
   };
 
@@ -42,68 +40,95 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      // Send a request to your backend to verify the entered OTP
-      const response = await fetch("http://localhost:5555/api/verify-otp", {
-        method: "POST",
+      const response = await fetch('http://localhost:5000/api/verify-otp', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, otp }),
+        body: JSON.stringify({ email,otp }),
       });
 
       console.log('Response:', response);
 
-      if (response.ok) {
-        // TODO: Navigate the user to the password reset page
-        console.log("OTP verified successfully. Redirect to password reset page.");
+      if (response.status===201) {
+       
+        toast.success('OTP verified successfully .Redirect to password reset page',{ position: 'top-center', autoClose: 3000 });
+
+        setTimeout(() => {
+          navigate('/resetPassword',{ state: { email } });
+        }, 3000);
+
+
       } else {
-        // Handle error response
-        console.error("Failed to verify OTP");
+        toast.error('Failed to verify OTP');
       }
     } catch (error) {
-      console.error("Error sending request:", error);
+      toast.error('Error sending request:', error);
     }
   };
 
-
-
-
-
-
-
-
-
-
+  useEffect(() => {
+    // This effect will run after the component re-renders
+    // Update the conditional rendering logic here
+  }, [showOtpField]); // Re-run the effect when showOtpField changes
 
   return (
     <div>
-      <div className='forgotmainpage'>
-        <div className='lock-icon'>
-        <FcLock  className='icon-widthlock'/>
+      <div className="forgotmainpage">
+        <div className="lock-icon">
+          <FcLock className="icon-widthlock" />
         </div>
-        <div className='forgot-text'>
-          Forgot Password ? 
+        <div className="forgot-text">Forgot Password ?</div>
+        <div className="downtext">
+          Remember your password ? <Link to="/login">Login here</Link>.
         </div>
-        <div className='downtext'>
-          Remember your password ? <Link to='/login'>Login here</Link>.
-        </div>
-        <div className='outletof-forgot'>
-          {/* <div className='mail-boxicon'>
-            < CiMail/>
-          </div>
-          <div>
-          <hr className='line'/>
-          </div> */}
-          <div className='input-forgot'>
-            <input type='mail' placeholder='Email address' name='emailaddress' className='forgotpassword-input12'/>
-          </div>
-        </div>
-        <div className='forgotbutton1'>
-          <button className='forgot-buttn'>Forgot Password</button>
-        </div>
+
+        {!showOtpField ? (
+          <form onSubmit={handleEmailSubmit}>
+            <div className="outletof-forgot">
+              <div className="input-forgot">
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="forgotpassword-input12"
+                />
+              </div>
+            </div>
+            <div className="forgotbutton1">
+              <button type="submit" className="forgot-buttn">
+                Forgot Password
+              </button>
+            </div>
+          </form>
+        ) : (
+          <form onSubmit={handleOtpSubmit}>
+            <div className="outletof-forgot">
+              <div className="input-forgot">
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  name="otp"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="forgotpassword-input12"
+                />
+              </div>
+            </div>
+            <div className="forgotbutton1">
+              <button type="submit" className="forgot-buttn">
+                Verify OTP
+              </button>
+            </div>
+          </form>
+        )}
+
+<ToastContainer  />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ForgotPassword;

@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         type : String,
         required:true,
     },
-
+   otp:String,
     post: [{ 
         image:String,
          title:String ,
