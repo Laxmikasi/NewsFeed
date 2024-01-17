@@ -9,6 +9,8 @@ import Profile from './Components/Profile';
 import ResetPassword from './Components/ResetPassword';
 import Home from './Components/Home';
 import PostForm from './Components/PostForm';
+import MyPost from './Components/Mypost';
+
  
 function App() {
   
@@ -26,11 +28,13 @@ function App() {
     <Route path='/resetPassword' element={<ResetPassword/>}/> 
     <Route path='/profile' element={<Profile/>}/> 
     <Route path='/postForm' element={<PostForm/>}/> 
+    <Route path='/myPost' element={<MyPost/>}/> 
     <Route
                 path="/reset_password/:id/:token"
                 element={<ForgotPassword />}
               />
        
+    <Route path="/post/:postId" element={<MyPost />} /> 
     </Routes>
     </Router>   
 

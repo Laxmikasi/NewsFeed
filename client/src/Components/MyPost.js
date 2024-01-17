@@ -1,16 +1,23 @@
-import {React,useState}from 'react'
-import img from './backgroung.webp'
+import {React,useState,useCallback,useEffect} from 'react'
+import img from '../Assets/backgroung.webp'
 import './MyPost.css'
 import { AiFillLike } from 'react-icons/ai';
 import { AiFillDislike } from "react-icons/ai";
 import { FaCommentAlt } from 'react-icons/fa';
 import { IoMdShare } from 'react-icons/io';
+import{useParams} from "react-router-dom";
+import axios from 'axios';
+
 const MyPost = () => {
-    const [likes, setLikes] = useState(0);
+  const { postId } = useParams();
+  const [likes, setLikes] = useState(0);
   const [dislikes,setDislikes]=useState(0)
   const [commentVisible, setCommentVisible] = useState(false);
   const [moreVisible, setMoreVisible] = useState(false)
   const [comment, setComment] = useState('');
+  const [post, setPost] = useState({});
+  const [error, setError] = useState("");
+  const [token] = useState(localStorage.getItem('token'));
 
   const handleLikeClick = () => {
     setLikes(likes + 1);
@@ -30,11 +37,84 @@ const MyPost = () => {
   const handleMoreclick = () => {
     setMoreVisible(!moreVisible);
   };
+
+  // const fetchPostDetails = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/api/post/${postId}`
+  //     );
+  //     console.log("Response:", response.data);
+  //     setPostDetails(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching product details:", error);
+  //     setError("Error fetching product details");
+  //   }
+  // },[setPostDetails,postId]);
+
+
+  // useEffect(() => {
+  //   console.log("Post ID:", postId);
+  //   if (postId) {
+  //     fetchPostDetails(postId);
+  //   }
+  // }, [postId,fetchPostDetails]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:5000/api/profile`, {
+  //       headers: {
+  //         "x-token": token,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setPosts(res.data.user.post);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [token,setPosts]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/profile`, {
+        headers: {
+          "x-token": token,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        // Assuming res.data.user.post is an array of posts
+        const allPosts = res.data.user.post;
+  
+        // Filter the posts based on the postId
+        const selectedPost = allPosts.filter((post) => post._id === postId);
+  
+        // If a post with the given postId is found, set it as the selected post
+        if (selectedPost.length > 0) {
+          setPost(selectedPost[0]);
+        } else {
+          console.log("Post not found");
+          // Handle the case where the post with the given ID is not found
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // Handle errors here
+      });
+  }, [token, postId, setPost]);
+  
+
+
+
+
+
+
   return (
     <div className='MainPost'>
         <div className='MyPost'>
             <div className='MyPost-img'>
-                <img className='Postimage' src={img} alt='img' />
+                <img className='Postimage'
+                 src={`http://localhost:5000${post.image}`}
+                  alt='img' />
             </div>
             <div className='postdiv'>
             <div className="post-div11">
@@ -42,16 +122,16 @@ const MyPost = () => {
                     <img className="post-profile-pic" src={img} alt="img" />
                     <h2 style={{ margin: '0%', marginLeft: '15px' }}>UserName</h2>
                     </div>
-                    <h3 style={{padding:'10px',margin:'0%',marginTop:'10px'}}>Hey There!</h3>
+                    <h3 style={{padding:'10px',margin:'0%',marginTop:'10px'}}>{post.title}</h3>
                     {moreVisible && (
                 <div className='post-div5' >
-                <p className='post-p'>Feeling great today!To implement the functionality of increasing likes count and displaying a comment input area when the user clicks on "Like" or "Comment," you will need to manage the state of likes and comments in your component. Below is an example of how you can achieve this using Reacts state.ParagraphParagraphs are the group of sentences combined together, about a certain topic. It is a very important form of writing as we write almost everything in paragraphs, be it an answer, essay, story, emails, etc. We can say that a well-structured paragraph is the essence of good writing. The purposes of the paragraph are to give information, to explain something, to tell a story, and to convince someone that our idea is right.Paragraphs are blocks of textual content that segment out a larger piece of writing—stories, novels, articles, creative writing, or professional writing portions—making it less complicated to read and understand. Excellent paragraphs are an available writing skill for plenty of types of literature, and proper writers can substantially beautify the clarity of their news, essays, or fiction writing whilst constructing nicely.</p>
+                <p className='post-p'>{post.content}</p>
                 <button className='post-button'  onClick={handleMoreclick}>Show Less</button>
                 </div>
             )}
             {!moreVisible && (
                 <div className='post-div5' >
-                <p>Feeling great today!To implement the functionality of increasing likes count and displaying a comment input area when the user clicks on "Like" or "Comment," you will need to manage the state of likes and comments in your component.</p>
+                <p>{post.content && post.content.substring(0, 200)}</p>
                 <button className='post-button' onClick={handleMoreclick}>Show More</button>
                 </div>
             )}     

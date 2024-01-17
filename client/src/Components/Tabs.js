@@ -71,12 +71,30 @@ const [formData, setFormData] = useState({
     });
   };
   
+  // const handleFileChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     image: e.target.files[0],
+  //   });
+  // };
+
   const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+  
+    // Update the state with the selected file
     setFormData({
       ...formData,
-      image: e.target.files[0],
+      image: selectedFile,
     });
+    setFile(selectedFile);
+    // Generate a preview URL
+    setPreviewURL(URL.createObjectURL(selectedFile));
   };
+  
+
+
+
+
   
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -107,7 +125,11 @@ const [formData, setFormData] = useState({
         title: '',
         content: '',
  
-      })
+      });
+      setFile('');
+    // Generate a preview URL
+    setPreviewURL(URL.createObjectURL(''));
+
     } catch (error) {
       console.error(error);
       setError('Internal Server Error');

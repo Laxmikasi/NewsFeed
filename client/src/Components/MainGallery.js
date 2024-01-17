@@ -1,5 +1,6 @@
 import {React,useState,useEffect} from 'react'
 import Gallery from './Gallery';
+import {Link} from "react-router-dom"
 import axios from 'axios';
 
 const MainGallery = () => {
@@ -77,17 +78,21 @@ const MainGallery = () => {
       </header>
       <div className="feed-container11" >
         {posts.map((post) => (
-          
+          //  <Link to={`/post/${post._id}`}>
           <div className="card1" key={post.id}>
+          <Link to={`/post/${post._id}`}>
       <img 
-src={`http://localhost:5000/api/uploads${post.image}`}
+src={`http://localhost:5000${post.image}`}
+
 alt={''}
        className="card1-image" />
       <div className="card1-content">
         <h6 className="card1-title">{post.title}</h6>
         {/* <p className="card1-description">{description}</p> */}
       </div>
+      </Link>
     </div>
+     
         ))}
       </div>
     </div>
