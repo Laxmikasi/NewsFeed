@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
-import { IoMdEye } from "react-icons/io";
-import { IoMdEyeOff } from "react-icons/io";
+// import { IoMdEye } from "react-icons/io";
+// import { IoMdEyeOff } from "react-icons/io";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import Navbar from './Navbar';
+// import Navbar from './Navbar';
 import './Register.css'
 
 

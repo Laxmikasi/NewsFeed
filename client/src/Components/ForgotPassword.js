@@ -52,7 +52,7 @@ const ForgotPassword = () => {
 
       if (response.status===201) {
        
-        toast.success('OTP verified successfully .Redirect to password reset page',{ position: 'top-center', autoClose: 3000 });
+        toast.success('OTP verified successfully .Redirect to password reset page',{ position: 'top-center', className:'toast_success1',autoClose: 3000 });
 
         setTimeout(() => {
           navigate('/resetPassword',{ state: { email } });
