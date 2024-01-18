@@ -12,6 +12,7 @@ import MainGallery from './MainGallery';
 // import postimage from './alexander-grey-jYbKxinWQGk-unsplash.jpg'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,9 +54,22 @@ export default function BasicTabs() {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
+  const [error, setError] = useState('');
+  const [token] = useState(localStorage.getItem('token'));
+  const [submitting, setSubmitting] = useState('');
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+const [formData, setFormData] = useState({
+    image:'',
+    title: '',
+
+    content: '',
+
+  });
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
   const handleSubtitleChange = (e) => {
     setSubtitle(e.target.value);
@@ -67,21 +81,84 @@ export default function BasicTabs() {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-
-    // Update the state with the selected file and generate a preview URL
+  
+    // Update the state with the selected file
+    setFormData({
+      ...formData,
+      image: selectedFile,
+    });
     setFile(selectedFile);
+    // Generate a preview URL
     setPreviewURL(URL.createObjectURL(selectedFile));
   };
+  
 
-  const handleSubmit = () => {
-        toast.success('Successfully Posted')
+
+
+
+  
+  const handleUpload = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const formDataWithPicture = new FormData();
+      formDataWithPicture.append('title', formData.title);
+      formDataWithPicture.append('subtitle', formData.subtitle);
+      formDataWithPicture.append('content', formData.content);
+      formDataWithPicture.append('image', formData.image);
+  
+      const response = await axios.post(
+        `http://localhost:5000/api/addPost`,
+        formDataWithPicture,
+        {
+          headers: {
+            'x-token': token,
+            'Content-Type': 'multipart/form-data', // Add this header
+          },
+        }
+      );
+  
+      console.log(response);
+      setError('');
+      alert('Post added successfully.');
+      setFormData({
+        image:'',
+        title: '',
+        content: '',
+ 
+      });
+      setFile('');
+    // Generate a preview URL
+    setPreviewURL(URL.createObjectURL(''));
+
+    } catch (error) {
+      console.error(error);
+      setError('Internal Server Error');
+    } finally {
+      setSubmitting(false);
+    }
   };
+  
+  
+
+
+
+
+
 
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  
+
+
+
+
+
+
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -101,7 +178,13 @@ export default function BasicTabs() {
         <label htmlFor="subtitle">Sub-Title: </label>
         <input type="text" id="subtitle" name="subtitle" placeholder='Sub-Title' value={subtitle}  onChange={handleSubtitleChange}  />
         <label htmlFor="description">Description:</label>
-        <textarea id="description" name="description" placeholder='About Post' rows="4" value={description} onChange={handleDescriptionChange} required></textarea>
+        <textarea 
+        id="content" 
+        name="content"
+         placeholder='About Post' 
+         rows="4" value={formData.content}
+          onChange={handleInputChange} 
+          required></textarea>
 
         {/* <label htmlFor="file">Select video or photo:</label> */}
         {/* <input type="file" id="file" name="file" accept="image/, video/" onChange={handleFileChange} required /> */}
@@ -110,7 +193,12 @@ export default function BasicTabs() {
 
 {!file ? (
           <label htmlFor="file" className="upload-icon-label">
-            <input type="file" id="file" name="file" accept="image/, video/" style={{ display: 'none' }} onChange={handleFileChange} required />
+            <input type="file" 
+            id="file"
+             name="image" 
+             accept="image/, video/" 
+              style={{ display: 'none' }} 
+             onChange={handleFileChange} required />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <FaCloudUploadAlt className="upload-icon" />
               <h5 style={{ margin: '0%', padding: '10px' }}>Upload video or photo</h5>
@@ -129,7 +217,7 @@ export default function BasicTabs() {
           </div>
         )}
 
-        <button type="button" className='Postform-button' onClick={handleSubmit}>Post</button>
+        <button type="button" className='Postform-button' onClick={handleUpload}>Post</button>
       
       </form>
     </div>

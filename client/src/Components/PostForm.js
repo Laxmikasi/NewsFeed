@@ -6,10 +6,9 @@ import Tabs from './Tabs'
 import postimage from '../Assets/backgroung.webp'
 // import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const PostForm = () => {
-
-
-  return (
+return (
     <div className='PostForm-Post'>
         <div className='Postform-div'>
             <img style={{
