@@ -49,12 +49,16 @@ function a11yProps(index) {
 export default function BasicTabs() {
 
   const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
+  };
+  const handleSubtitleChange = (e) => {
+    setSubtitle(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
@@ -94,6 +98,8 @@ export default function BasicTabs() {
       <form className='Postform'>
         <label htmlFor="title">Title: </label>
         <input type="text" id="title" name="title" placeholder='Title' value={title}  onChange={handleTitleChange} required />
+        <label htmlFor="subtitle">Sub-Title: </label>
+        <input type="text" id="subtitle" name="subtitle" placeholder='Sub-Title' value={subtitle}  onChange={handleSubtitleChange}  />
         <label htmlFor="description">Description:</label>
         <textarea id="description" name="description" placeholder='About Post' rows="4" value={description} onChange={handleDescriptionChange} required></textarea>
 
