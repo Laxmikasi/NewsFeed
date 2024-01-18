@@ -9,9 +9,8 @@ import Profile from './Components/Profile';
 import ResetPassword from './Components/ResetPassword';
 import Home from './Components/Home';
 import PostForm from './Components/PostForm';
-import MyPost from './Components/Mypost';
+import MyPost from './Components/MyPost';
 
- 
 function App() {
   
   return (

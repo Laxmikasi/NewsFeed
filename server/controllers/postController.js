@@ -18,7 +18,7 @@ exports.addPost =  async (req, res) => {
 
     const { title, subtitle, content } = req.body;
     const image = req.file ? `/uploads/${req.file.filename}` : null;
-
+    const timestamp = req.body.timestamp ? new Date(req.body.timestamp) : new Date();
     const customer = await User.findById(userId);
     console.log('Result of User.findOne:', customer);
 
@@ -26,10 +26,10 @@ exports.addPost =  async (req, res) => {
       return res.status(404).json({ error: 'Customer not found.' });
     }
 
-    customer.post.push({ image, title, subtitle, content });
+    customer.post.push({ image, title, subtitle, content , timestamp, });
     await customer.save();
 
-    res.status(201).json({ success: true });
+    res.status(201).json({ success: true,timestamp:true });
   } catch (error) {
     console.error('Error saving post data:', error.message);
     res.status(500).json({ error: 'Error saving post data.' });
