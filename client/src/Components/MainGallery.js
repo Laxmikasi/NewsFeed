@@ -5,7 +5,25 @@ import axios from 'axios';
 import { format } from 'date-fns';
 const MainGallery = () => {
 
-
+  const calculateTimeDifference = (createdAt) => {
+    const now = new Date();
+    const createdDate = new Date(createdAt);
+    const timeDifference = now - createdDate;
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+  
+    if (minutesDifference < 60) {
+      return `${minutesDifference} ${minutesDifference === 1 ? 'minute' : 'minutes'} ago`;
+    } else {
+      const hoursDifference = Math.floor(minutesDifference / 60);
+      if (hoursDifference < 24) {
+        return `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago`;
+      } else {
+        const daysDifference = Math.floor(hoursDifference / 24);
+        return `${daysDifference} ${daysDifference === 1 ? 'day' : 'days'} ago`;
+      }
+    }
+  };
+  
 
   const [posts, setPosts] = useState([]);
   const [token] = useState(localStorage.getItem("token"));
@@ -46,7 +64,7 @@ const MainGallery = () => {
                 <div className="card1-content">
                   <h6 className="card1-title">{post.title}</h6>
                   <p className="card1-timestamp">
-                    Posted on: {post.createdAt ? format(new Date(post.createdAt), 'yyyy-MM-dd HH:mm') : 'Unknown'}
+                  Posted {calculateTimeDifference(post.createdAt)}
                   </p>
 
                 </div>
