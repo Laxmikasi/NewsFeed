@@ -103,9 +103,23 @@ const MyPost = () => {
     <div className='MainPost'>
         <div className='MyPost'>
             <div className='MyPost-img'>
-                <img className='Postimage'
+                {/* <img className='Postimage'
                  src={`http://localhost:5000${post.image}`}
-                  alt='img' />
+                  alt='img' /> */}
+
+
+{post.image && post.image.includes('video') ? (
+            <video controls>
+              <source src={`http://localhost:5000${post.image}`} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <img
+              className='Postimage'
+              src={`http://localhost:5000${post.image}`}
+              alt='img'
+            />
+          )}
             </div>
             <div className='postdiv'>
             <div className="post-div11">
