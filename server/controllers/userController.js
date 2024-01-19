@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Post = require('../models/postModel');
 const bcrypt = require("bcrypt");
 
 const SALT_ROUNDS = 10;
@@ -29,19 +30,41 @@ exports.registerUser = async (req, res) => {
   }
 };
 
+// exports.getUserProfile = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+
+//     // Fetch user details from the "users" collection and populate additional data
+//     const user = await Post.findById(userId)
+    
+
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     res.status(200).json({ user });
+//   } catch (error) {
+//     console.error("Error fetching user profile:", error);
+//     res.status(500).json({ error: "Failed to fetch user profile" });
+//   }
+// };
+
+
+
 exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Fetch user details from the "users" collection and populate additional data
-    const user = await User.findById(userId)
-    
+    // Find posts where the Author.UserId matches the user's id
+    const posts = await Post.find({
+      'Author.UserId': userId
+    });
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({ error: "User not found or no posts available" });
     }
 
-    res.status(200).json({ user });
+    res.status(200).json({ posts });
   } catch (error) {
     console.error("Error fetching user profile:", error);
     res.status(500).json({ error: "Failed to fetch user profile" });

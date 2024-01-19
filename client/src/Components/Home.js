@@ -1,40 +1,85 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Post from './Post';
 import Navbar from './Navbar';
+import axios from 'axios';
+import { AiFillLike } from 'react-icons/ai';
+import { AiFillDislike } from "react-icons/ai";
+import { FaCommentAlt } from 'react-icons/fa';
+import { IoMdShare } from 'react-icons/io';
+
 
 const Home = () => {
 
-  const posts = [
-    {
-      id: 1,
-      profile:'https://i2.wp.com/techbeasts.com/wp-content/uploads/2016/01/green_mountain_nature_wallpaper_hd.jpg',
-      username: 'John Doe',
-      picture:'https://th.bing.com/th/id/R.17b33d455795f7955f374703ec5db7ec?rik=NxSsDRRowb8cGw&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fngPEfyE.jpg&ehk=H8cSGsfjlgPQaG1%2f3Ozt2CphyeUbP7kRRn7Dc8mef9s%3d&risl=&pid=ImgRaw&r=0',
-      header:'Happy holiday!',
-      text: 'Feeling great today!To implement the functionality of increasing likes count and displaying a comment input area when the user clicks on "Like" or "Comment," you will need to manage the state of likes and comments in your component. Below is an example of how you can achieve this using Reacts state.ParagraphParagraphs are the group of sentences combined together, about a certain topic. It is a very important form of writing as we write almost everything in paragraphs, be it an answer, essay, story, emails, etc. We can say that a well-structured paragraph is the essence of good writing. The purposes of the paragraph are to give information, to explain something, to tell a story, and to convince someone that our idea is right.Paragraphs are blocks of textual content that segment out a larger piece of writing—stories, novels, articles, creative writing, or professional writing portions—making it less complicated to read and understand. Excellent paragraphs are an available writing skill for plenty of types of literature, and proper writers can substantially beautify the clarity of their news, essays, or fiction writing whilst constructing nicely.',
-    },
-    {
-      id: 2,
-      profile:'https://th.bing.com/th/id/OIP.WKmRKC01ItIs99LZylpilQHaEc?w=1280&h=768&rs=1&pid=ImgDetMain',
-      username: 'Jane Smith',
-      picture:'https://th.bing.com/th/id/OIP.jwKmDSrVEEe9X9wTKrcPKwHaEo?rs=1&pid=ImgDetMain',
-      header:'Happy Festival!',
-      text: 'Feeling great today!To implement the functionality of increasing likes count and displaying a comment input area when the user clicks on "Like" or "Comment," you will need to manage the state of likes and comments in your component. Below is an example of how you can achieve this using Reacts state.ParagraphParagraphs are the group of sentences combined together, about a certain topic. It is a very important form of writing as we write almost everything in paragraphs, be it an answer, essay, story, emails, etc. We can say that a well-structured paragraph is the essence of good writing. The purposes of the paragraph are to give information, to explain something, to tell a story, and to convince someone that our idea is right.Paragraphs are blocks of textual content that segment out a larger piece of writing—stories, novels, articles, creative writing, or professional writing portions—making it less complicated to read and understand. Excellent paragraphs are an available writing skill for plenty of types of literature, and proper writers can substantially beautify the clarity of their news, essays, or fiction writing whilst constructing nicely.',
+  const [allPosts, setAllPosts] = useState([]);
+  const [commentVisible, setCommentVisible] = useState(false);
+  const [moreVisible, setMoreVisible] = useState(false)
+  const [comment, setComment] = useState('');
 
-    },
-    {
-      id: 3,
-      profile:'https://th.bing.com/th/id/OIP.t8FdjFRADxucLG2gBhj2QwHaEo?rs=1&pid=ImgDetMain',
-      username: 'salvatore',
-      picture:'https://th.bing.com/th/id/R.9d812e0638aec020faa11d89795bb90f?rik=A006j6sL742cww&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f07%2fnatural-landscape-purple-lake-wallpaper-.jpg&ehk=pAMyN7JHIDi73moP1dIjfu7zY10pXVNw92GFzZalDaE%3d&risl=&pid=ImgRaw&r=0',
-      header:'Happy hacking!',
-      text: 'Feeling great today!To implement the functionality of increasing likes count and displaying a comment input area when the user clicks on "Like" or "Comment," you will need to manage the state of likes and comments in your component. Below is an example of how you can achieve this using Reacts state.ParagraphParagraphs are the group of sentences combined together, about a certain topic. It is a very important form of writing as we write almost everything in paragraphs, be it an answer, essay, story, emails, etc. We can say that a well-structured paragraph is the essence of good writing. The purposes of the paragraph are to give information, to explain something, to tell a story, and to convince someone that our idea is right.',
 
-    },
-    // Add more posts as needed
-  ];
 
+  const handleCommentClick = () => {
+    setCommentVisible(!commentVisible);
+  };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  const handleMoreclick = () => {
+    setMoreVisible(!moreVisible);
+  };
+
+
+
+
+
+
+
+  const handleLike = (postId,userId) => {
+    
+    axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        setAllPosts(response.data);
+         // Update media list after successful like
+      })
+      .catch(error => console.error('Error liking media:', error));
+  };
+
+  const handleDislike = (postId,userId) => {
+    axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        setAllPosts(response.data);
+         // Update media list after successful dislike
+      })
+      .catch(error => console.error('Error disliking media:', error));
+  };
+
+
+
+
+
+  useEffect(() => {
+    // Fetch vitals data from the API
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/allPosts");
+        const responseData = response.data.reverse();
+        console.log(responseData);
+        setAllPosts(responseData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
       
+
+
+
+
 
   return (
 <>
@@ -47,8 +92,77 @@ const Home = () => {
         <h1>Facebook Feed</h1>
       </header>
       <div className="feed-container">
-        {posts.map((post) => (
-          <Post key={post.id} {...post} />
+        {allPosts.map((post) => (
+          
+          <div className="post" key={post.id}>
+          <div className="post-div">
+            <img className="post-profile-pic" src={''} alt="img" />
+            <h2 style={{ margin: '0%', marginLeft: '15px' }}>{post.Author.Name}</h2>
+          </div>
+          {/* <p>{text}</p> */}
+          <div className="post-div1">
+           
+            <img className="post-picture" 
+            src={`http://localhost:5000${post.image}`}
+             alt="img" />
+            {/* <div className='post-div5'>
+            <p>{text}</p>
+            {moreVisible &&(<p>{text}</p>)}
+                <button className='post-button' onClick={handleMoreclick}>Show More</button>
+            </div> */}
+                </div>
+                <div >
+                <h3 style={{padding:'10px',margin:'0%'}}>{post.title}</h3>
+                {moreVisible && (
+                    <div className='post-div5'>
+                    <p className='post-p'>{post.content}</p>
+                    <button className='post-button'  onClick={handleMoreclick}>Show Less</button>
+                    </div>
+                )}
+                {!moreVisible && (
+                    <div className='post-div5'>
+                    <p>{post.content.substring(0, 200)}</p>
+                    <button className='post-button' onClick={handleMoreclick}>Show More</button>
+                    </div>
+                )}
+                </div>
+          <div className="post-div4">
+            <div className="post-div3"  onClick={() => handleLike(post._id,post.Author.UserId)}>
+              <AiFillLike className="post-like" />
+              <p style={{ margin: '0%', marginLeft: '5px' }}>{post.likes} Likes</p>
+            </div>
+    
+            <div className="post-div3"  onClick={() => handleDislike(post._id,post.Author.UserId)}>
+              <AiFillDislike className="post-like" />
+              <p style={{ margin: '0%', marginLeft: '5px' }}>{post.dislikes} Dislikes</p>
+            </div>
+    
+            <div className="post-div3" onClick={handleCommentClick}>
+              <FaCommentAlt className="post-like" />
+              <p style={{ margin: '0%', marginLeft: '5px' }}>Comment</p>
+            </div>
+    
+            <div className="post-div3">
+              <IoMdShare className="post-like" />
+              <p style={{ margin: '0%', marginLeft: '5px' }}>Share</p>
+            </div>
+          </div>
+          {commentVisible && (
+            <div className="comment-section1">
+              <input
+                type="text"
+                placeholder="Write a comment..."
+                value={comment}
+                onChange={handleCommentChange}
+              />
+              {/* Additional comment-related components can be added as needed */}
+            </div>
+          )}
+        </div>
+
+
+
+
         ))}
       </div>
     </div>

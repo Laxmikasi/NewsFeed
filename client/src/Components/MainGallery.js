@@ -19,7 +19,7 @@ const MainGallery = () => {
       })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data.user.post);
+        setPosts(res.data.posts || []); 
       })
       .catch((err) => console.log(err));
   }, [token, setPosts]);

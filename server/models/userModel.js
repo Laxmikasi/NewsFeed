@@ -27,17 +27,7 @@ const userSchema = new mongoose.Schema({
         required:true,
     },
    otp:String,
-    post: [{ 
-        image:String,
-         title:String ,
-         subtitle: String ,
-         content: String,
-         likes: { type: Number, default: 0 },
-        dislikes: { type: Number, default: 0 },
-        comments: [{ text: String }],
-        createdAt: { type: Date, default: Date.now }
-    },
-        ],  
+    
    
   })
   

@@ -1,4 +1,4 @@
-import {React,useState,useCallback,useEffect} from 'react'
+import React,{useState,useCallback,useEffect} from 'react'
 import img from '../Assets/backgroung.webp'
 import './MyPost.css'
 import { AiFillLike } from 'react-icons/ai';
@@ -10,8 +10,8 @@ import axios from 'axios';
 
 const MyPost = () => {
   const { postId } = useParams();
-  const [likes, setLikes] = useState(0);
-  const [dislikes,setDislikes]=useState(0)
+  const [likes, setLikes] = useState('');
+  const [dislikes,setDislikes]=useState('')
   const [commentVisible, setCommentVisible] = useState(false);
   const [moreVisible, setMoreVisible] = useState(false)
   const [comment, setComment] = useState('');
@@ -19,12 +19,33 @@ const MyPost = () => {
   const [error, setError] = useState("");
   const [token] = useState(localStorage.getItem('token'));
 
-  const handleLikeClick = () => {
-    setLikes(likes + 1);
+
+
+  const handleLike = (postId,userId) => {
+    
+    axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        setPost(response.data);
+         // Update media list after successful like
+      })
+      .catch(error => console.error('Error liking media:', error));
   };
-  const handleDislikeClick = () => {
-    setDislikes(dislikes + 1);
+
+  const handleDislike = (postId,userId) => {
+    axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        setPost(response.data);
+         // Update media list after successful dislike
+      })
+      .catch(error => console.error('Error disliking media:', error));
   };
+
+
+
+
+
 
   const handleCommentClick = () => {
     setCommentVisible(!commentVisible);
@@ -38,40 +59,10 @@ const MyPost = () => {
     setMoreVisible(!moreVisible);
   };
 
-  // const fetchPostDetails = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/api/post/${postId}`
-  //     );
-  //     console.log("Response:", response.data);
-  //     setPostDetails(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching product details:", error);
-  //     setError("Error fetching product details");
-  //   }
-  // },[setPostDetails,postId]);
+  
 
-
-  // useEffect(() => {
-  //   console.log("Post ID:", postId);
-  //   if (postId) {
-  //     fetchPostDetails(postId);
-  //   }
-  // }, [postId,fetchPostDetails]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:5000/api/profile`, {
-  //       headers: {
-  //         "x-token": token,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       setPosts(res.data.user.post);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [token,setPosts]);
+  
+  
 
   useEffect(() => {
     axios
@@ -83,7 +74,7 @@ const MyPost = () => {
       .then((res) => {
         console.log(res.data);
         // Assuming res.data.user.post is an array of posts
-        const allPosts = res.data.user.post;
+        const allPosts = res.data.posts;
   
         // Filter the posts based on the postId
         const selectedPost = allPosts.filter((post) => post._id === postId);
@@ -137,14 +128,14 @@ const MyPost = () => {
             )}     
             </div>
 <div className="post-div4">
-        <div className="post-div3" onClick={handleLikeClick}>
+        <div className="post-div3"  onClick={() => handleLike(post._id,post.Author.UserId)}>
           <AiFillLike className="post-like" />
-          <p  style={{ margin: '0%', marginLeft: '5px' }}>{likes} Likes</p>
+          <p  style={{ margin: '0%', marginLeft: '5px' }}>{post.likes} Likes</p>
         </div>
 
-        <div className="post-div3" onClick={handleDislikeClick}>
+        <div className="post-div3" onClick={()=>handleDislike(post._id,post.Author.UserId)}>
           <AiFillDislike className="post-like" />
-          <p style={{ margin: '0%', marginLeft: '5px' }}>{dislikes} Dislikes</p>
+          <p style={{ margin: '0%', marginLeft: '5px' }}>{post.dislikes} Dislikes</p>
         </div>
 
         <div className="post-div3">
