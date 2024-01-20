@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import MainGallery from './MainGallery';
+import Profile from './Profile';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -199,7 +200,7 @@ export default function BasicTabs() {
         <MainGallery />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+      <Profile />
       </CustomTabPanel>
     </Box>
   );

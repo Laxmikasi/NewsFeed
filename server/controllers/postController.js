@@ -151,3 +151,20 @@ exports.readPosts= async (req, res) => {
     res.status(500).json({ error: 'Internal server error.' });
   }
 };
+
+
+
+// server.js
+exports.commentPost= async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { text } = req.body;
+    const post = await Post.findById(postId);
+    post.comments.push({ text });
+    await post.save();
+    res.json({ message: 'Commented successfully' });
+  } catch (error) {
+    console.error('Error commenting on media:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

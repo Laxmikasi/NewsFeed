@@ -35,26 +35,51 @@ const Home = () => {
 
 
 
-  const handleLike = (postId,userId) => {
+  // const handleLike = (postId,userId) => {
     
+  //   axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setAllPosts(response.data);
+  //        // Update media list after successful like
+  //     })
+  //     .catch(error => console.error('Error liking media:', error));
+  // };
+
+  // const handleDislike = (postId,userId) => {
+  //   axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setAllPosts(response.data);
+  //        // Update media list after successful dislike
+  //     })
+  //     .catch(error => console.error('Error disliking media:', error));
+  // };
+
+  const handleLike = (postId, userId) => {
     axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
       .then(response => {
         console.log(response.data);
-        setAllPosts(response.data);
-         // Update media list after successful like
+        setAllPosts(prevPosts => {
+          return prevPosts.map(post => (post._id === postId ? response.data : post));
+        });
       })
       .catch(error => console.error('Error liking media:', error));
   };
-
-  const handleDislike = (postId,userId) => {
+  
+  const handleDislike = (postId, userId) => {
     axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
       .then(response => {
         console.log(response.data);
-        setAllPosts(response.data);
-         // Update media list after successful dislike
+        setAllPosts(prevPosts => {
+          return prevPosts.map(post => (post._id === postId ? response.data : post));
+        });
       })
       .catch(error => console.error('Error disliking media:', error));
   };
+  
+
+
 
 
 
