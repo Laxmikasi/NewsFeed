@@ -16,13 +16,18 @@
   .card1-content {
     padding: 10px;
     background-color: #fff;
+    height: 100%;
   }
   
   .card1-title {
     font-size: 1.0rem;
     margin-bottom: 8px;
     margin-top: 0;
-    
+    /* color: black; */
+  }
+  .Gallery-link{
+    color: black;
+    text-decoration: none;
   }
   
   /* .card1-description {
@@ -31,7 +36,7 @@
   .feed-container11{
     display: flex;
     flex-wrap: wrap;
-    max-width: 85%;
+    max-width: 100%;
     margin: auto;
   }
   @media (max-width: 768px) {

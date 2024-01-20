@@ -83,6 +83,7 @@ const MainGallery = () => {
     <div className="App">
       <div style={{ width: '100%', margin: 'auto', }}>
 
+<<<<<<< Updated upstream
 
         <header className="App-header" style={{ maxWidth: '75%', margin: 'auto' }}>
           <h1>Gallery</h1>
@@ -107,6 +108,25 @@ const MainGallery = () => {
 
 
         </div>
+=======
+      
+      <header className="App-header" style={{maxWidth:'75%',margin:'auto'}}>
+        <h1>Gallery</h1>
+      </header>
+      <div className="feed-container11" >
+        {posts.map((post) => (
+          //  <Link to={`/post/${post._id}`}>
+          <div className="card1" key={post.id}>
+          <Link to={`/post/${post._id}`} className='Gallery-link'>
+      <img 
+src={`http://localhost:5000${post.image}`}
+
+alt={''}
+       className="card1-image" />
+      <div className="card1-content">
+        <h6 className="card1-title">{post.title && post.title.substring(0,50)}</h6>
+        {/* <p className="card1-description">{description}</p> */}
+>>>>>>> Stashed changes
       </div>
     </div>
   );
