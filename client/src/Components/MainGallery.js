@@ -23,24 +23,20 @@ const MainGallery = () => {
         if (hoursDifference < 24) {
             return `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago`;
         } else {
-            // Display the time difference in terms of days
             const daysDifference = Math.floor(hoursDifference / 24);
 
             if (daysDifference >= 7) {
-                const weeksDifference = Math.floor(daysDifference / 7);
-                if (weeksDifference === 1) {
-                    return `${weeksDifference} week ago`;
-                } else {
-                    const formattedDate = createdDate.toLocaleDateString(undefined, {
-                        month: 'short',  // 3-letter month abbreviation
-                        day: 'numeric',
-                        year: '2-digit',  // 2-digit year
-                    });
+                const formattedDate = createdDate.toLocaleDateString(undefined, {
+                    month: 'short',  // 3-letter month abbreviation
+                    day: 'numeric',
+                    year: '2-digit',  // 2-digit year
+                });
 
-                    return ` ${formattedDate}`;
-                }
+                return ` ${formattedDate}`;
             } else {
-                return `${daysDifference} ${daysDifference === 1 ? 'day' : 'days'} ago`;
+                // Exclude the days information for posts less than 7 days old
+                const weeksDifference = Math.floor(daysDifference / 7);
+                return `${weeksDifference} ${weeksDifference === 1 ? 'week' : 'weeks'} ago`;
             }
         }
     }
@@ -59,7 +55,7 @@ const [posts, setPosts] = useState([]);
       })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data.posts || []); 
+        setPosts(res.data.user.post);
       })
       .catch((err) => console.log(err));
   }, [token, setPosts]);
