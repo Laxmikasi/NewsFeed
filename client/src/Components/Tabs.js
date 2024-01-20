@@ -47,10 +47,7 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [title, setTitle] = useState('');
-<<<<<<< Updated upstream
-=======
   const [description, setDescription] = useState('');
->>>>>>> Stashed changes
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [error, setError] = useState('');
@@ -69,8 +66,6 @@ export default function BasicTabs() {
       [e.target.name]: e.target.value,
     });
   };
-<<<<<<< Updated upstream
-=======
   
   // const handleFileChange = (e) => {
   //   setFormData({
@@ -78,7 +73,6 @@ export default function BasicTabs() {
   //     image: e.target.files[0],
   //   });
   // };
->>>>>>> Stashed changes
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -106,11 +100,7 @@ export default function BasicTabs() {
       
 
       const response = await axios.post(
-<<<<<<< Updated upstream
-        `http://localhost:5000/api/post`,
-=======
-        'http://localhost:5000/api/addPost',
->>>>>>> Stashed changes
+        'http://localhost:5000/api/post',
         formDataWithPicture,
         {
           headers: {
@@ -155,31 +145,6 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-<<<<<<< Updated upstream
-        <div className="upload-form-container11">
-          <h1>Upload New Post</h1>
-          <form className='Postform'>
-            <label htmlFor="title">Title: </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder='Title'
-              value={formData.title}
-              onChange={handleInputChange}
-              required
-            />
-            <label htmlFor="description">Description:</label>
-            <textarea
-              id="content"
-              name="content"
-              placeholder='About Post'
-              rows="4"
-              value={formData.content}
-              onChange={handleInputChange}
-              required
-            ></textarea>
-=======
       <div className="upload-form-container11">
       <h1>Upload New Post</h1>
       <form className='Postform'>
@@ -199,7 +164,6 @@ export default function BasicTabs() {
          rows="4" value={formData.content}
           onChange={handleInputChange} 
           required></textarea>
->>>>>>> Stashed changes
 
             {!file ? (
               <label htmlFor="file" className="upload-icon-label">
