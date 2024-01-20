@@ -23,40 +23,27 @@ const MainGallery = () => {
         if (hoursDifference < 24) {
             return `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago`;
         } else {
-            // Display the time difference in terms of days
             const daysDifference = Math.floor(hoursDifference / 24);
 
             if (daysDifference >= 7) {
-                const weeksDifference = Math.floor(daysDifference / 7);
-                if (weeksDifference === 1) {
-                    return `${weeksDifference} week ago`;
-                } else {
-                    const formattedDate = createdDate.toLocaleDateString(undefined, {
-                        month: 'short',  // 3-letter month abbreviation
-                        day: 'numeric',
-                        year: '2-digit',  // 2-digit year
-                    });
+                const formattedDate = createdDate.toLocaleDateString(undefined, {
+                    month: 'short',  // 3-letter month abbreviation
+                    day: 'numeric',
+                    year: '2-digit',  // 2-digit year
+                });
 
-                    return ` ${formattedDate}`;
-                }
+                return ` ${formattedDate}`;
             } else {
-                return `${daysDifference} ${daysDifference === 1 ? 'day' : 'days'} ago`;
+                // Exclude the days information for posts less than 7 days old
+                const weeksDifference = Math.floor(daysDifference / 7);
+                return `${weeksDifference} ${weeksDifference === 1 ? 'week' : 'weeks'} ago`;
             }
         }
     }
 };
 
 
-
-
-
-
-
-
-  
-  
-
-  const [posts, setPosts] = useState([]);
+const [posts, setPosts] = useState([]);
   const [token] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -68,7 +55,7 @@ const MainGallery = () => {
       })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data.posts || []); 
+        setPosts(res.data.user.post);
       })
       .catch((err) => console.log(err));
   }, [token, setPosts]);
@@ -83,23 +70,30 @@ const MainGallery = () => {
     <div className="App">
       <div style={{ width: '100%', margin: 'auto', }}>
 
-      
-      <header className="App-header" style={{maxWidth:'75%',margin:'auto'}}>
-        <h1>Gallery</h1>
-      </header>
-      <div className="feed-container11" >
-        {posts.map((post) => (
-          //  <Link to={`/post/${post._id}`}>
-          <div className="card1" key={post.id}>
-          <Link to={`/post/${post._id}`} className='Gallery-link'>
-      <img 
-src={`http://localhost:5000${post.image}`}
 
-alt={''}
-       className="card1-image" />
-      <div className="card1-content">
-        <h6 className="card1-title">{post.title && post.title.substring(0,50)}</h6>
-        {/* <p className="card1-description">{description}</p> */}
+        <header className="App-header" style={{ maxWidth: '75%', margin: 'auto' }}>
+          <h1>Gallery</h1>
+        </header>
+        <div className="feed-container11" >
+          {posts.map((post) => (
+            <div className="card1" key={post.id}>
+              <p className="card1-timestamp">
+                  Posted {calculateTimeDifference(post.createdAt)}
+                  </p>
+              <Link to={`/post/${post._id}`}>
+                <img src={`http://localhost:5000${post.image}`} alt={''} className="card1-image" />
+                <div className="card1-content">
+                  <h6 className="card1-title">{post.title}</h6>
+                  
+
+                </div>
+              </Link>
+            </div>
+          ))}
+
+
+
+        </div>
       </div>
       </Link>
     </div>

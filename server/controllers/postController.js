@@ -62,7 +62,7 @@ exports.likePost = async(req, res) =>{
 
       // accessing ids from like route
       const postId = req.params.postId;
-      const userId = req.params.userId;
+      const userId = req.user.id;
 
       // checking id's validitity in the database
       const postExist = await Post.findById(postId);
@@ -105,7 +105,7 @@ exports.dislikePost = async(req, res) =>{
 
       // accessing ids from dislike route
       const postId = req.params.postId;
-      const userId = req.params.userId;
+      const userId = req.user.id;
 
       // checking id's validitity in the database
       const postExist = await Post.findById(postId);
@@ -154,17 +154,30 @@ exports.readPosts= async (req, res) => {
 
 
 
-// server.js
-exports.commentPost= async (req, res) => {
+exports.commentPost = async (req, res) => {
   try {
-    const postId = req.params.id;
-    const { text } = req.body;
+    const postId = req.params.postId;
+    const { text } = req.body; // Change to { text }
     const post = await Post.findById(postId);
-    post.comments.push({ text });
-    await post.save();
-    res.json({ message: 'Commented successfully' });
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    if (text && typeof text === 'string' && text.trim() !== '') {
+      post.comments.push({ text });
+      await post.save();
+      return res.json({ message: 'Commented successfully' });
+    } else {
+      return res.status(400).json({ error: 'Invalid comment text' });
+    }
   } catch (error) {
     console.error('Error commenting on media:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+
+
+    
