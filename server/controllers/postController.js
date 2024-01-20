@@ -62,7 +62,7 @@ exports.likePost = async(req, res) =>{
 
       // accessing ids from like route
       const postId = req.params.postId;
-      const userId = req.params.userId;
+      const userId = req.user.id;
 
       // checking id's validitity in the database
       const postExist = await Post.findById(postId);
@@ -105,7 +105,7 @@ exports.dislikePost = async(req, res) =>{
 
       // accessing ids from dislike route
       const postId = req.params.postId;
-      const userId = req.params.userId;
+      const userId = req.user.id;
 
       // checking id's validitity in the database
       const postExist = await Post.findById(postId);

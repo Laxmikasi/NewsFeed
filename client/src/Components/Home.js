@@ -6,6 +6,7 @@ import { AiFillLike } from 'react-icons/ai';
 import { AiFillDislike } from "react-icons/ai";
 import { FaCommentAlt } from 'react-icons/fa';
 import { IoMdShare } from 'react-icons/io';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Home = () => {
@@ -56,8 +57,69 @@ const Home = () => {
   //     .catch(error => console.error('Error disliking media:', error));
   // };
 
-  const handleLike = (postId, userId) => {
-    axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
+  // const handleLike = (e,postId, userId) => {
+
+  //   e.preventDefault();
+    
+  //   const token = localStorage.getItem("token");
+  
+  //   if (!token) {
+  //     toast.error("Please login to add items to the wishlist.");
+  //     window.location.href = "/login";
+  //     return;
+  //   }
+  //   axios.post(`http://localhost:5000/api/like/${postId}`)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setAllPosts(prevPosts => {
+  //         return prevPosts.map(post => (post._id === postId ? response.data : post));
+  //       });
+  //     })
+  //     .catch(error => console.error('Error liking media:', error));
+  // };
+  
+  // const handleDislike = (e,postId, userId) => {
+
+  //   e.preventDefault();
+  //   const token = localStorage.getItem("token");
+  
+  //   if (!token) {
+  //     toast.error("Please login to add items to the wishlist.");
+  //     window.location.href = "/login";
+  //     return;
+  //   }
+  //   axios.post(`http://localhost:5000/api/dislike/${postId}`)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setAllPosts(prevPosts => {
+  //         return prevPosts.map(post => (post._id === postId ? response.data : post));
+  //       });
+  //     })
+  //     .catch(error => console.error('Error disliking media:', error));
+  // };
+  
+
+  const handleLike = (e, postId, userId) => {
+    e.preventDefault();
+  
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      toast.error("Please login to add items to the wishlist.");
+      window.location.href = "/login";
+      return;
+    }
+  
+    axios.post(
+      `http://localhost:5000/api/like/${postId}`,
+      null,  // No request data needed
+      {
+        headers: {
+          'x-token': token,
+          
+        },
+      }
+    )
       .then(response => {
         console.log(response.data);
         setAllPosts(prevPosts => {
@@ -67,8 +129,27 @@ const Home = () => {
       .catch(error => console.error('Error liking media:', error));
   };
   
-  const handleDislike = (postId, userId) => {
-    axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
+  const handleDislike = (e, postId, userId) => {
+    e.preventDefault();
+  
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      toast.error("Please login to add items to the wishlist.");
+      window.location.href = "/login";
+      return;
+    }
+  
+    axios.post(
+      `http://localhost:5000/api/dislike/${postId}`,
+      null,  // No request data needed
+      {
+        headers: {
+          'x-token': token,
+          
+        },
+      }
+    )
       .then(response => {
         console.log(response.data);
         setAllPosts(prevPosts => {
@@ -78,6 +159,7 @@ const Home = () => {
       .catch(error => console.error('Error disliking media:', error));
   };
   
+
 
 
 
@@ -152,12 +234,12 @@ const Home = () => {
                 )}
                 </div>
           <div className="post-div4">
-            <div className="post-div3"  onClick={() => handleLike(post._id,post.Author.UserId)}>
+            <div className="post-div3"  onClick={(e) => handleLike(e,post._id,post.Author.UserId)}>
               <AiFillLike className="post-like" />
               <p style={{ margin: '0%', marginLeft: '5px' }}>{post.likes} Likes</p>
             </div>
     
-            <div className="post-div3"  onClick={() => handleDislike(post._id,post.Author.UserId)}>
+            <div className="post-div3"  onClick={(e) => handleDislike(e,post._id,post.Author.UserId)}>
               <AiFillDislike className="post-like" />
               <p style={{ margin: '0%', marginLeft: '5px' }}>{post.dislikes} Dislikes</p>
             </div>
@@ -190,6 +272,7 @@ const Home = () => {
 
         ))}
       </div>
+      <ToastContainer  />
     </div>
     </div>
     </>

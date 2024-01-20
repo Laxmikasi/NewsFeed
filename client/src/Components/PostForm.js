@@ -2,20 +2,53 @@ import React, { useState } from 'react';
 import './PostForm.css'; // Import the CSS file
 // import { FaCloudUploadAlt } from 'react-icons/fa';
 import Tabs from './Tabs'
+import { Link } from 'react-router-dom';
+
 // import { Toast } from 'react-toastify/dist/types';
 import postimage from '../Assets/backgroung.webp'
 // import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 const PostForm = () => {
+    
+    const navigate = useNavigate();
 
     const getCurrentTimestamp = () => {
         const currentDate = new Date();
         const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         return currentDate.toLocaleDateString('en-US', options);
       };
+
+
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        toast.error("Please login to add the post.");
+        window.location.href = "/login";
+        return;
+      }
+
+      const handleLogout = () => {
+        // Clear the token
+        
+        localStorage.removeItem('token')
+         
+        // Redirect to the login page
+        navigate('/');
+      }
+
+
+
+
+
+
 return (
     <div className='PostForm-Post'>
+        <button className='Postform-button '
+         style={{position:'absolute',right:'50px',top:'10px'}}
+         onClick={handleLogout}>Log out</button>
         <div className='Postform-div'>
             <img style={{
                 width:"100px",
@@ -30,7 +63,7 @@ return (
         </div>
 
        
-    
+    <ToastContainer/>
     </div>
   );
 };
