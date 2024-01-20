@@ -1,21 +1,17 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import Navbar from './Navbar';
 import axios from 'axios';
 import { AiFillLike } from 'react-icons/ai';
-import { AiFillDislike } from "react-icons/ai";
+import { AiFillDislike } from 'react-icons/ai';
 import { FaCommentAlt } from 'react-icons/fa';
 import { IoMdShare } from 'react-icons/io';
 
-
 const Home = () => {
-
   const [allPosts, setAllPosts] = useState([]);
   const [commentVisible, setCommentVisible] = useState(false);
-  const [moreVisible, setMoreVisible] = useState(false)
+  const [moreVisible, setMoreVisible] = useState(false);
   const [comment, setComment] = useState('');
-
-
 
   const handleCommentClick = () => {
     setCommentVisible(!commentVisible);
@@ -29,32 +25,20 @@ const Home = () => {
     setMoreVisible(!moreVisible);
   };
 
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/allPosts");
+      const responseData = response.data.reverse();
+      console.log(responseData);
+      setAllPosts(responseData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-
-
-
-
-
-  // const handleLike = (postId,userId) => {
-    
-  //   axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
-  //     .then(response => {
-  //       console.log(response.data);
-  //       setAllPosts(response.data);
-  //        // Update media list after successful like
-  //     })
-  //     .catch(error => console.error('Error liking media:', error));
-  // };
-
-  // const handleDislike = (postId,userId) => {
-  //   axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
-  //     .then(response => {
-  //       console.log(response.data);
-  //       setAllPosts(response.data);
-  //        // Update media list after successful dislike
-  //     })
-  //     .catch(error => console.error('Error disliking media:', error));
-  // };
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const handleLike = (postId, userId) => {
     axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
@@ -66,7 +50,7 @@ const Home = () => {
       })
       .catch(error => console.error('Error liking media:', error));
   };
-  
+
   const handleDislike = (postId, userId) => {
     axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
       .then(response => {
@@ -77,29 +61,24 @@ const Home = () => {
       })
       .catch(error => console.error('Error disliking media:', error));
   };
+
+  const handleCommentPost = (postId) => {
+    console.log('Comment Text:', comment); // Log the comment text
+    axios.post(`http://localhost:5000/api/comment/${postId}`, { text: comment })
+      .then(response => {
+        console.log(response.data);
+        setComment('');
+        fetchPosts(); // Fetch the updated list of posts after posting a comment
+      })
+      .catch(error => {
+        console.error('Error posting comment:', error);
+        if (error.response) {
+          console.error('Response data:', error.response.data);
+        }
+      });
+  };
   
-
-
-
-
-
-
-
-  useEffect(() => {
-    // Fetch vitals data from the API
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/allPosts");
-        const responseData = response.data.reverse();
-        console.log(responseData);
-        setAllPosts(responseData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+  
       
 
 
@@ -173,16 +152,17 @@ const Home = () => {
             </div>
           </div>
           {commentVisible && (
-            <div className="comment-section1">
-              <input
-                type="text"
-                placeholder="Write a comment..."
-                value={comment}
-                onChange={handleCommentChange}
-              />
-              {/* Additional comment-related components can be added as needed */}
-            </div>
-          )}
+  <div className="comment-section1">
+    <input
+      type="text"
+      placeholder="Write a comment..."
+      value={comment}
+      onChange={handleCommentChange}
+    />
+    <button onClick={() => handleCommentPost(post._id)}>Post </button>
+  </div>
+)}
+
         </div>
 
 
