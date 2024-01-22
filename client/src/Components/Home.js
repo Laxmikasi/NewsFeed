@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import axios from 'axios';
 import { AiFillLike } from 'react-icons/ai';
-import { AiFillDislike } from 'react-icons/ai';
+import { AiFillDislike } from "react-icons/ai";
 import { FaCommentAlt } from 'react-icons/fa';
 import { IoMdShare } from 'react-icons/io';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,8 +17,8 @@ const Home = () => {
   const [moreVisible, setMoreVisible] = useState(false);
   const [comment, setComment] = useState('');
 
-  const handleCommentClick = () => {
-    setCommentVisible(!commentVisible);
+  const handleCommentClick = (postId) => {
+    setCommentVisible(commentVisible === postId ? null : postId);
   };
 
   const handleCommentChange = (e) => {
@@ -161,28 +161,9 @@ const Home = () => {
       })
       .catch(error => console.error('Error liking media:', error));
   };
-  
-  const handleDislike = (e, postId, userId) => {
-    e.preventDefault();
-  
-    const token = localStorage.getItem("token");
-  
-    if (!token) {
-      toast.error("Please login to add items to the wishlist.");
-      window.location.href = "/login";
-      return;
-    }
-  
-    axios.post(
-      `http://localhost:5000/api/dislike/${postId}`,
-      null,  // No request data needed
-      {
-        headers: {
-          'x-token': token,
-          
-        },
-      }
-    )
+
+  const handleDislike = (postId, userId) => {
+    axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
       .then(response => {
         console.log(response.data);
         setAllPosts(prevPosts => {
@@ -191,14 +172,23 @@ const Home = () => {
       })
       .catch(error => console.error('Error disliking media:', error));
   };
-  
 
+  const handleCommentSubmit = async (postId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/comments', {
+        userId: 'your_user_id', // Replace with the actual user ID
+        postId,
+        text: comment,
+      });
 
+      console.log('Comment submitted:', response.data);
+      setComment('');
 
-
-
-
-
+      // You might want to update your state with the new comment data here
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+    }
+  };
 
   useEffect(() => {
     // Fetch vitals data from the API
@@ -215,11 +205,6 @@ const Home = () => {
 
     fetchUsers();
   }, []);
-      
-
-
-
-
 
   return (
     <>
