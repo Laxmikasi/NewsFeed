@@ -9,46 +9,47 @@ const Profile1 = () => {
   const [token] = useState(localStorage.getItem("token"));
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    profilePicture: '',
+   
   });
 
   const handleEditClick = () => {
     setEditing(true);
   };
 
-  const handleSaveClick = async (e) => {
+  const handleEditSave = async (e) => {
     e.preventDefault();
-
+  
     setEditing(false);
-
+  
     try {
       const formDataWithPicture = new FormData();
       formDataWithPicture.append('firstName', formData.firstName);
       formDataWithPicture.append('lastName', formData.lastName);
       formDataWithPicture.append('email', formData.email);
       formDataWithPicture.append('phone', formData.phone);
-      formDataWithPicture.append('profilePicture', formData.profilePicture);
-
+  
+      // Check if a new profile picture is selected
+      if (formData.profilePicture) {
+        formDataWithPicture.append('profilePicture', formData.profilePicture);
+      }
+  
       const response = await axios.put('http://localhost:5000/api/profile', formDataWithPicture, {
         headers: {
-            "x-token": token,
+          "x-token": token,
           'Content-Type': 'multipart/form-data',
         },
-        
       });
-
+  
       console.log('Profile updated successfully', response.data);
+  
+      setFormData(response.data);
       // Handle success or update the state accordingly
     } catch (error) {
       console.error('Error updating profile', error);
       // Handle error or update the state accordingly
     }
   };
-
+  
   const handleCancelClick = () => {
     setEditing(false);
   };
@@ -85,7 +86,7 @@ const Profile1 = () => {
 
 
   return (
-    <form onSubmit={handleSaveClick}>
+    <form onSubmit={handleEditSave}>
       <div className="profile-container">
         <h2 className='personal-information'>Personal Information</h2>
        

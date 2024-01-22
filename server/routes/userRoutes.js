@@ -18,6 +18,6 @@ router.post('/register', userController.registerUser);
 router.get('/gallery', authMiddleware, userController.getUserPosts);
 router.get('/profile', authMiddleware, userController.readProfile);
 router.put('/profile',upload.single('profilePicture'), authMiddleware, userController.updateProfile);
-
+router.get('/allUsers',  userController.readAllUsers);
 
 module.exports = router;
