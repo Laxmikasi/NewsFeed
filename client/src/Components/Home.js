@@ -286,9 +286,9 @@ const Home = () => {
       type="text"
       placeholder="Write a comment..."
       value={comment}
-      onChange={handleCommentChange}
+      // onChange={handleCommentChange}
     />
-    <button onClick={() => handleCommentPost(post._id)}>Post </button>
+    {/* <button onClick={() => handleCommentPost(post._id)}>Post </button> */}
   </div>
 )}
 
