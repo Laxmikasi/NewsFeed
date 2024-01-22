@@ -93,12 +93,12 @@ const [posts, setPosts] = useState([]);
 
 
 
-        </div>
-      </div>
-    </div>
-  );
+        
+  </div>
 
-
+  </div>
+  </div>
+  )
 }
 
 export default MainGallery;

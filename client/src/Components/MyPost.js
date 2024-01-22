@@ -87,7 +87,7 @@ const MyPost = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/profile`, {
+      .get(`http://localhost:5000/api/gallery`, {
         headers: {
           "x-token": token,
         },
