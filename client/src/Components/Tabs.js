@@ -6,11 +6,12 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import MainGallery from './MainGallery';
+import MainGallery from './Gallery';
 import Profile from './Profile';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import Profile1 from './Profile1';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -200,7 +201,7 @@ export default function BasicTabs() {
         <MainGallery />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-      <Profile />
+      <Profile1 />
       </CustomTabPanel>
     </Box>
   );

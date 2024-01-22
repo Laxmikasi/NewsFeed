@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Post from './Post';
+
 import Navbar from './Navbar';
 import axios from 'axios';
 import { AiFillLike } from 'react-icons/ai';
@@ -7,6 +7,7 @@ import { AiFillDislike } from 'react-icons/ai';
 import { FaCommentAlt } from 'react-icons/fa';
 import { IoMdShare } from 'react-icons/io';
 import { ToastContainer, toast } from 'react-toastify';
+import './Home.css';
 
 
 const Home = () => {
@@ -25,6 +26,11 @@ const Home = () => {
 
   const handleMoreclick = () => {
     setMoreVisible(!moreVisible);
+  };
+
+
+  const handleCommentPost = (e) => {
+    setComment(e.target.value);
   };
 
   const fetchPosts = async () => {
@@ -229,20 +235,27 @@ const Home = () => {
           
           <div className="post" key={post.id}>
           <div className="post-div">
-            <img className="post-profile-pic" src={''} alt="img" />
+            <img className="post-profile-pic" src={`http://localhost:5000${post.Author.ProfilePicture}`}  alt="img" />
             <h2 style={{ margin: '0%', marginLeft: '15px' }}>{post.Author.Name}</h2>
           </div>
           {/* <p>{text}</p> */}
           <div className="post-div1">
+          { (post.type && post.type.toLowerCase() === 'mp4') || (post.type && post.type.toLowerCase() === 'mp3') ? (
+             <video controls className='post-video'>
+             <source src={`http://localhost:5000${post.image}`}  />
+             Your browser does not support the video tag.
+           </video>
+            
+          ):
+            
+            
+             (
+              <img className="post-picture" 
+              src={`http://localhost:5000${post.image}`}
+               alt="img" />)
+                
+               }
            
-            <img className="post-picture" 
-            src={`http://localhost:5000${post.image}`}
-             alt="img" />
-            {/* <div className='post-div5'>
-            <p>{text}</p>
-            {moreVisible &&(<p>{text}</p>)}
-                <button className='post-button' onClick={handleMoreclick}>Show More</button>
-            </div> */}
                 </div>
                 <div >
                 <h3 style={{padding:'10px',margin:'0%'}}>{post.title}</h3>
