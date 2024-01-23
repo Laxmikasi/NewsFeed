@@ -80,11 +80,25 @@ const [posts, setPosts] = useState([]);
               <p className="card1-timestamp">
                   Posted {calculateTimeDifference(post.createdAt)}
                   </p>
-              <Link to={`/post/${post._id}`}>
-                <img src={`http://localhost:5000${post.image}`} 
-                alt={''} className="card1-image" />
+              <Link style={{color:'black',textDecoration:'none'}} to={`/post/${post._id}`}>
+
+              <div className="post-div1">
+                      {(post.type && post.type.toLowerCase() === 'mp4') || (post.type && post.type.toLowerCase() === 'mp3') ? (
+                        <video controls className='post-video'style={{height:'152px',objectFit:"inherit",marginBottom:'0%'}}>
+                          <source src={`http://localhost:5000${post.image}`} />
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <img className="post-picture"
+                          src={`http://localhost:5000${post.image}`}
+                          alt="img" />
+                      )}
+                    </div>
+
+                {/* <img src={`http://localhost:5000${post.image}`} 
+                alt={''} className="card1-image" /> */}
                 <div className="card1-content">
-                  <h6 className="card1-title">{post.title}</h6>
+                  <h6 className="card1-title">{post.title.substring(0,50)}</h6>
                   
 
                 </div>

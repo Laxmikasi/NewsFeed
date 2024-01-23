@@ -109,25 +109,27 @@ const Profile1 = () => {
 
             <div className="profile-details">
               <div className="details">
+                <div style={{display:'flex',alignContent:'center'}}>
                 <label className='label1'>
-                {editing ? 'FirstName:' : 'Name:'}
+                {editing ? 'First Name:' : 'Full Name:'}
                   {editing ? (
                     
-                    <input className='texting' type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
+                    <input className='texting' style={{width:'60%'}} type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
                   ) : (
                     <span className='span1'>{formData.firstName}  {formData.lastName}</span>
                   )}
                 </label>
                 {editing && (
       <label className='label1'>
-        LastName:
-        <input className='texting' type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
+        Last Name:
+        <input className='texting' style={{width:'60%'}}  type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
       </label>
     )}
+    </div>
                 <label className='label1'>
                   Email:
                   {editing ? (
-                    <input className='texting' type="text" name="email" value={formData.email} onChange={handleInputChange} />
+                    <input className='texting' style={{width:'88%'}} type="text" name="email" value={formData.email} onChange={handleInputChange} />
                   ) : (
                     <span className='span1'>{formData.email}</span>
                   )}
@@ -135,7 +137,7 @@ const Profile1 = () => {
                 <label className='label1'>
                   Phone:
                   {editing ? (
-                    <textarea className='texting' name="phone" value={formData.phone} onChange={handleInputChange} />
+                    <input className='texting' style={{width:'87%'}} name="phone" value={formData.phone} onChange={handleInputChange} />
                   ) : (
                     <p className='span1'>{formData.phone}</p>
                   )}
@@ -146,7 +148,7 @@ const Profile1 = () => {
         </div>
         {editing ? (
           <>
-            <button className='save-btn' type="submit">Save</button>
+            <button className='save-btn' type="submit" >Save</button>
             <button className="cancel-btn" type="button" onClick={handleCancelClick}>
               Cancel
             </button>

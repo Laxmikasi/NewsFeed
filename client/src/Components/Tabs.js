@@ -183,7 +183,7 @@ export default function BasicTabs() {
                 {file.type.startsWith('image') ? (
                   <img src={previewURL} className='Postform-image' alt="Preview" />
                 ) : (
-                  <video controls>
+                  <video controls className='Postform-image'>
                     <source src={previewURL} className='Postform-image' type={file.type} />
                     Your browser does not support the video tag.
                   </video>
