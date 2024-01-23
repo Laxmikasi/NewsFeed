@@ -80,7 +80,41 @@ const Home = () => {
   
   
       
-
+  const calculateTimeDifference = (createdAt) => {
+    const now = new Date();
+    const createdDate = new Date(createdAt);
+    const timeDifference = now - createdDate;
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+  
+    if (minutesDifference < 60) {
+      return `${minutesDifference} ${minutesDifference === 1 ? 'minute' : 'minutes'} ago`;
+    } else {
+      const hoursDifference = Math.floor(minutesDifference / 60);
+      if (hoursDifference < 24) {
+        return `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago`;
+      } else {
+        const daysDifference = Math.floor(hoursDifference / 24);
+  
+        if (daysDifference === 7) {
+          // Display month and year after 7 days
+          const options = { month: 'long', year: 'numeric' };
+          return `1 week ago (${createdDate.toLocaleDateString('en-US', options)})`;
+        } else if (daysDifference > 7 && daysDifference <= 14) {
+          // Display month and year after 1 week
+          const options = { month: 'long', year: 'numeric' };
+          return `1 week ago (${createdDate.toLocaleDateString('en-US', options)})`;
+        } else if (daysDifference > 7) {
+          // Display weeks ago
+          const weeksDifference = Math.floor(daysDifference / 7);
+          return `${weeksDifference} ${weeksDifference === 1 ? 'week' : 'weeks'} ago`;
+        } else {
+          // Display days ago
+          return `${daysDifference} ${daysDifference === 1 ? 'day' : 'days'} ago`;
+        }
+      }
+    }
+  };
+  
 
 
 
@@ -102,8 +136,12 @@ const Home = () => {
           <div className="post-div">
             <img className="post-profile-pic" src={''} alt="img" />
             <h2 style={{ margin: '0%', marginLeft: '15px' }}>{post.Author.Name}</h2>
+            
           </div>
-          {/* <p>{text}</p> */}
+          <p className="card1-timestamp">
+                    Posted {calculateTimeDifference(post.createdAt)}
+                  </p>
+          
           <div className="post-div1">
            
             <img className="post-picture" 
@@ -160,8 +198,18 @@ const Home = () => {
       onChange={handleCommentChange}
     />
     <button onClick={() => handleCommentPost(post._id)}>Post </button>
+    {/* {post.comments.map((comment) => (
+      <div key={comment._id}>
+        <p>{comment.text}</p>
+        <p className="comment-timestamp">
+          {new Date(comment.createdAt).toLocaleString()}
+        </p>
+      </div>
+    ))} */}
   </div>
 )}
+
+
 
         </div>
 
@@ -169,11 +217,13 @@ const Home = () => {
 
 
         ))}
+      
       </div>
     </div>
     </div>
     </>
   );
+  
     
   
 }
