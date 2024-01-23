@@ -289,9 +289,10 @@ const Home = () => {
                           value={comment}
                           onChange={handleCommentChange}
                         />
-                        <button onClick={() => handleCommentPost(post._id)}>Post </button>
+                        <button onClick={() => handleCommentPost(post._id)} className='Home-post-button'>Post </button>
                       </div>
                     )}
+                    
                   </div>
                 );
               } else {

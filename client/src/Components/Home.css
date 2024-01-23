@@ -83,12 +83,22 @@
   
   .comment-section1 {
     margin-top: 10px;
+    background-color: #e1e1e1;
   }
   
   .comment-section1 input {
-    width: calc(100% - 20px);
+    width: calc(100% - 700px);
     padding: 8px;
     border: 1px solid #e1e1e1;
     border-radius: 4px;
+    margin: 20px;
     margin-right: 10px;
+  }
+  .Home-post-button{
+    padding: 8px 10px;
+    color: white;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
   }
