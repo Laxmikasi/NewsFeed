@@ -92,16 +92,34 @@ exports.updateProfile = async (req, res) => {
     const userId = req.user.id;
     const { firstName, lastName, email, phone } = req.body;
     
-    const profilePicture = req.file ? `/uploads/${req.file.filename}` : null;
+    let updateFields = { firstName, lastName, email, phone };
+
+    // Check if a new profilePicture file is selected
+    if (req.file) {
+      updateFields.profilePicture = `/uploads/${req.file.filename}`;
+    }
 
     const updatedProfile = await User.findByIdAndUpdate(
       userId,
-      { firstName, lastName, email, phone, profilePicture },
+      updateFields,
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
 
-    res.json({ ...updatedProfile._doc, profilePicture });
+    res.json(updatedProfile);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error updating profile' });
+  }
+};
+
+
+
+exports.readAllUsers= async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 };
