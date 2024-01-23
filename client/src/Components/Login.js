@@ -61,7 +61,7 @@ const Login = () => {
   
   if(token){
     setTimeout(() => {
-      navigate('/postForm');
+      navigate('/');
     }, 2000);
   
   

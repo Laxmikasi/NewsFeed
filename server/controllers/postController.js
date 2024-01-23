@@ -3,6 +3,12 @@ const Post = require('../models/postModel');
 const multer = require('multer');
 // const { default: MyPost } = require('../../client/src/Components/Mypost');
 
+const getFileType = (mimeType) => {
+  const splitMimeType = mimeType.split('/');
+  return splitMimeType[1] || null;
+};
+
+
 const storage = multer.diskStorage({
   destination: 'uploads/', // Choose a folder to store uploaded files
   filename: function (req, file, cb) {
@@ -18,7 +24,7 @@ exports.addPost =  async (req, res) => {
 
     const userId = req.user.id;
     
-
+    const type = getFileType(req.file.mimetype);
     const { title, subtitle, content } = req.body;
     const image = req.file ? `/uploads/${req.file.filename}` : null;
     const timestamp = req.body.timestamp ? new Date(req.body.timestamp) : new Date();
@@ -32,14 +38,14 @@ exports.addPost =  async (req, res) => {
     const newPost = new Post({
 
       title,
-      
+      type,
       content,
       image,
 
       Author : { 
         UserId : customer._id,
-        ProfilePic:customer.ProfilePic,
-        Name : customer.firstName
+        ProfilePicture:customer.profilePicture,
+        Name: `${customer.firstName} ${customer.lastName}`
   }
      
       });
@@ -62,7 +68,7 @@ exports.likePost = async(req, res) =>{
 
       // accessing ids from like route
       const postId = req.params.postId;
-      const userId = req.params.userId;
+      const userId = req.user.id;
 
       // checking id's validitity in the database
       const postExist = await Post.findById(postId);
@@ -105,7 +111,7 @@ exports.dislikePost = async(req, res) =>{
 
       // accessing ids from dislike route
       const postId = req.params.postId;
-      const userId = req.params.userId;
+      const userId = req.user.id;
 
       // checking id's validitity in the database
       const postExist = await Post.findById(postId);

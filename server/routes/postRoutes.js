@@ -19,8 +19,8 @@ const upload = multer({ storage });
 
 // Define routes for appointments
 router.post('/post',upload.single('image'), authMiddleware, postController.addPost);
-router.post('/like/:postId/:userId', postController.likePost);
-router.post('/dislike/:postId/:userId', postController.dislikePost);
+router.post('/like/:postId',authMiddleware, postController.likePost);
+router.post('/dislike/:postId',authMiddleware, postController.dislikePost);
 router.post('/comment/:postId', postController.commentPost);
 router.get('/allPosts', postController.readPosts);
 

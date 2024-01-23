@@ -6,11 +6,12 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import MainGallery from './MainGallery';
+import MainGallery from './Gallery';
 import Profile from './Profile';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import Profile1 from './Profile1';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,7 +48,6 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [error, setError] = useState('');
@@ -66,13 +66,6 @@ export default function BasicTabs() {
       [e.target.name]: e.target.value,
     });
   };
-  
-  // const handleFileChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     image: e.target.files[0],
-  //   });
-  // };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -100,7 +93,7 @@ export default function BasicTabs() {
       
 
       const response = await axios.post(
-        'http://localhost:5000/api/addPost',
+        `http://localhost:5000/api/post`,
         formDataWithPicture,
         {
           headers: {
@@ -145,25 +138,29 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-      <div className="upload-form-container11">
-      <h1>Upload New Post</h1>
-      <form className='Postform'>
-        <label htmlFor="title">Title: </label>
-        <input type="text"
-         id="title" 
-         name="title"
-          placeholder='Title' 
-          value={formData.title} 
-           onChange={handleInputChange}
-            required />
-        <label htmlFor="description">Description:</label>
-        <textarea 
-        id="content" 
-        name="content"
-         placeholder='About Post' 
-         rows="4" value={formData.content}
-          onChange={handleInputChange} 
-          required></textarea>
+        <div className="upload-form-container11">
+          <h1>Upload New Post</h1>
+          <form className='Postform'>
+            <label htmlFor="title">Title: </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder='Title'
+              value={formData.title}
+              onChange={handleInputChange}
+              required
+            />
+            <label htmlFor="description">Description:</label>
+            <textarea
+              id="content"
+              name="content"
+              placeholder='About Post'
+              rows="4"
+              value={formData.content}
+              onChange={handleInputChange}
+              required
+            ></textarea>
 
             {!file ? (
               <label htmlFor="file" className="upload-icon-label">
@@ -204,7 +201,7 @@ export default function BasicTabs() {
         <MainGallery />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-      <Profile />
+      <Profile1 />
       </CustomTabPanel>
     </Box>
   );

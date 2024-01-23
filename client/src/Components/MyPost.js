@@ -21,9 +21,19 @@ const MyPost = () => {
 
 
 
-  const handleLike = (postId,userId) => {
+  const handleLike = (postId) => {
     
-    axios.post(`http://localhost:5000/api/like/${postId}/${userId}`)
+    axios.post(
+      `http://localhost:5000/api/like/${postId}`,
+      {},
+      {
+        headers: {
+          'x-token': token,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
       .then(response => {
         console.log(response.data);
         setPost(response.data);
@@ -32,8 +42,19 @@ const MyPost = () => {
       .catch(error => console.error('Error liking media:', error));
   };
 
-  const handleDislike = (postId,userId) => {
-    axios.post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
+  const handleDislike = (postId) => {
+
+    axios.post(
+      `http://localhost:5000/api/dislike/${postId}`,
+      {},
+      {
+        headers: {
+          'x-token': token,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
       .then(response => {
         console.log(response.data);
         setPost(response.data);
@@ -66,7 +87,7 @@ const MyPost = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/profile`, {
+      .get(`http://localhost:5000/api/gallery`, {
         headers: {
           "x-token": token,
         },
@@ -142,12 +163,12 @@ const MyPost = () => {
             )}     
             </div>
 <div className="post-div4">
-        <div className="post-div3"  onClick={() => handleLike(post._id,post.Author.UserId)}>
+        <div className="post-div3"  onClick={() => handleLike(post._id)}>
           <AiFillLike className="post-like" />
           <p  style={{ margin: '0%', marginLeft: '5px' }}>{post.likes} Likes</p>
         </div>
 
-        <div className="post-div3" onClick={()=>handleDislike(post._id,post.Author.UserId)}>
+        <div className="post-div3" onClick={()=>handleDislike(post._id)}>
           <AiFillDislike className="post-like" />
           <p style={{ margin: '0%', marginLeft: '5px' }}>{post.dislikes} Dislikes</p>
         </div>

@@ -43,15 +43,7 @@ const MainGallery = () => {
 };
 
 
-
-
-
-
-
-  
-  
-
-  const [posts, setPosts] = useState([]);
+const [posts, setPosts] = useState([]);
   const [token] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -101,12 +93,12 @@ const MainGallery = () => {
 
 
 
-        </div>
-      </div>
-    </div>
-  );
+        
+  </div>
 
-
+  </div>
+  </div>
+  )
 }
 
 export default MainGallery;

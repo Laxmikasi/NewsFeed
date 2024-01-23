@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const Post = require('../models/postModel');
 const bcrypt = require("bcrypt");
+const multer = require('multer');
 
 const SALT_ROUNDS = 10;
 
@@ -51,7 +52,7 @@ exports.registerUser = async (req, res) => {
 
 
 
-exports.getUserProfile = async (req, res) => {
+exports.getUserPosts = async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -68,5 +69,57 @@ exports.getUserProfile = async (req, res) => {
   } catch (error) {
     console.error("Error fetching user profile:", error);
     res.status(500).json({ error: "Failed to fetch user profile" });
+  }
+};
+
+
+exports.readProfile= async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await User.findById(userId);
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+};
+
+
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { firstName, lastName, email, phone } = req.body;
+    
+    let updateFields = { firstName, lastName, email, phone };
+
+    // Check if a new profilePicture file is selected
+    if (req.file) {
+      updateFields.profilePicture = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedProfile = await User.findByIdAndUpdate(
+      userId,
+      updateFields,
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    res.json(updatedProfile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating profile' });
+  }
+};
+
+
+
+exports.readAllUsers= async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 };

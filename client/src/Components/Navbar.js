@@ -4,7 +4,12 @@ import { CgProfile } from 'react-icons/cg';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 
+
 function Navbar() {
+
+  const token = localStorage.getItem("token");
+
+
   return (
     <div className='main'>
       <div className='navbar'>
@@ -20,6 +25,7 @@ function Navbar() {
           </button>
            */}
         </div>
+        {!token ? (
         <div className='signin-button1'>
         <Link to="/register">
           <button className='signin-button'>SIGN UP</button>
@@ -28,9 +34,16 @@ function Navbar() {
           <button className='signup-button'>SIGN IN</button>
           </Link>
         </div>
-        {/* <div className='signin-button2'>
-          <button className='signup-button'>SIGN UP</button>
-        </div> */}
+        ):
+
+
+       (<div className='signin-button1'>
+        <Link to="/postForm">
+          <button className='profile-button'>Profile</button>
+          </Link>
+          
+        </div>)}
+
       </div>
     </div>
   );
