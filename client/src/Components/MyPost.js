@@ -130,7 +130,7 @@ const MyPost = () => {
 
 
 {post.image && post.image.includes('video') ? (
-            <video controls>
+            <video controls style={{width:'100%'}}>
               <source src={`http://localhost:5000${post.image}`} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
