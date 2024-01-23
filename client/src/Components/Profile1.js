@@ -115,7 +115,7 @@ const Profile1 = () => {
                     
                     <input className='texting' type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
                   ) : (
-                    <span className='span1'>{formData.firstName}{formData.lastName}</span>
+                    <span className='span1'>{formData.firstName}  {formData.lastName}</span>
                   )}
                 </label>
                 {editing && (

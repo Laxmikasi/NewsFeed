@@ -162,6 +162,7 @@ exports.readPosts= async (req, res) => {
 
 exports.commentPost = async (req, res) => {
   try {
+    const userId = req.user.id;
     const postId = req.params.postId;
     const { text } = req.body; // Change to { text }
     const post = await Post.findById(postId);
@@ -171,7 +172,8 @@ exports.commentPost = async (req, res) => {
     }
 
     if (text && typeof text === 'string' && text.trim() !== '') {
-      post.comments.push({ text });
+      // Change here to include userId in the postedBy field
+      post.comments.push({ text, postedBy: userId });
       await post.save();
       return res.json({ message: 'Commented successfully' });
     } else {
@@ -182,8 +184,3 @@ exports.commentPost = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
-
-
-
-    

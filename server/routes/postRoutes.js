@@ -21,7 +21,7 @@ const upload = multer({ storage });
 router.post('/post',upload.single('image'), authMiddleware, postController.addPost);
 router.post('/like/:postId',authMiddleware, postController.likePost);
 router.post('/dislike/:postId',authMiddleware, postController.dislikePost);
-router.post('/comment/:postId', postController.commentPost);
+router.post('/comment/:postId',authMiddleware, postController.commentPost);
 router.get('/allPosts', postController.readPosts);
 
 module.exports = router;
