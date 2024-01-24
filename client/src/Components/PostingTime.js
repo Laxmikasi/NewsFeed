@@ -13,6 +13,7 @@
             return `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago`;
         } else {
             const daysDifference = Math.floor(hoursDifference / 24);
+            
 
             if (daysDifference >= 7) {
                 const formattedDate = createdDate.toLocaleDateString(undefined, {

@@ -33,7 +33,9 @@ const Home = () => {
     setMoreVisible(!moreVisible);
   };
 
-  const handleCommentSubmit = async (postId) => {
+  const handleCommentSubmit = async (e,postId) => {
+    e.preventDefault();
+
     try {
       const token = localStorage.getItem("token");
 
@@ -193,6 +195,27 @@ const Home = () => {
     fetchUsers();
   }, []);
 
+
+  const generateBackgroundColor = (userInfo) => {
+    // Combine user information to create a unique identifier (you can customize this logic)
+    const userIdentifier = userInfo ? userInfo._id || userInfo.email || userInfo.username : null;
+  
+    // Generate a hash based on the user identifier
+    const hash = userIdentifier ? userIdentifier.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : 0;
+  
+    // Use the hash to select a color from a predefined array
+    const colors = ["#808000", "#008080", "#800080", "#800000", "#008000"];
+    const colorIndex = Math.abs(hash) % colors.length;
+  
+    return colors[colorIndex];
+  };
+
+
+
+
+
+
+
   return (
     <>
       <Navbar />
@@ -322,7 +345,7 @@ const Home = () => {
                             />
                             <button
                               type="button"
-                              onClick={() => handleCommentSubmit(post._id)}
+                              onClick={(e) => handleCommentSubmit(e,post._id)}
                             >
                               Post
                             </button>
@@ -338,30 +361,36 @@ const Home = () => {
                                 return (
                                   <div key={comment._id} className="comment">
                                     <div className="post-div">
-                                      <img
-                                        className="post-profile-pic"
-                                        src={`http://localhost:5000${commentedUser.profilePicture}`}
-                                        alt="img"
-                                        style={{ width: "50px", height: "50px" }}
-                                      />
-                                      <h2
+                                    {commentedUser.profilePicture !== null ? (
+    <img
+      className="post-profile-pic"
+      src={`http://localhost:5000${commentedUser.profilePicture}`}
+      alt="User Profile"
+      style={{ width: "40px", height: "40px" }}
+    />
+  ) : (
+    <div className="post-profile-pic" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: generateBackgroundColor(commentedUser), display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <span style={{ fontSize: "20px", color: "#" }}>{commentedUser.firstName.charAt(0).toUpperCase()}</span>
+    </div>
+  )}
+                                      <h3
                                         style={{
                                           margin: "0%",
                                           marginLeft: "15px",
                                         }}
                                       >
                                         {`${commentedUser.firstName} ${commentedUser.lastName}`}
-                                      </h2>
+                                      </h3>
                                     </div>
-                                    <p>{comment.text}</p>
+                                    <p className="comment">{comment.text}</p>
                                   </div>
                                 );
                               } else {
                                 // Handle the case where commentedUser is undefined
                                 return (
                                   <div key={comment._id} className="comment">
-                                    <p>User not found</p>
-                                    <p>{comment.text}</p>
+                                    <p >User not found</p>
+                                    <p className="comment">{comment.text}</p>
                                   </div>
                                 );
                               }
