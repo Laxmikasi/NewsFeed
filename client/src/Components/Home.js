@@ -41,7 +41,9 @@ const Home = () => {
     setMoreVisible(!moreVisible);
   };
 
-  const fetchPosts = async () => {
+  const handleCommentSubmit = async (e,postId) => {
+    e.preventDefault();
+
     try {
       const response = await axios.get("http://localhost:5000/api/allPosts");
       const responseData = response.data.reverse();
@@ -194,46 +196,26 @@ const Home = () => {
     fetchUsers();
   }, []);
 
-  const handleEditComment = (postId, commentId) => {
-    setSelectedComment({ postId, commentId });
+
+  const generateBackgroundColor = (userInfo) => {
+    // Combine user information to create a unique identifier (you can customize this logic)
+    const userIdentifier = userInfo ? userInfo._id || userInfo.email || userInfo.username : null;
+  
+    // Generate a hash based on the user identifier
+    const hash = userIdentifier ? userIdentifier.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : 0;
+  
+    // Use the hash to select a color from a predefined array
+    const colors = ["#808000", "#008080", "#800080", "#800000", "#008000"];
+    const colorIndex = Math.abs(hash) % colors.length;
+  
+    return colors[colorIndex];
   };
 
-  const handleUpdateComment = async (postId) => {
-    await handleCommentSubmit(postId);
-  };
 
-  const handleDeleteComment = async (postId, commentId) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Please login to delete a comment.");
-        window.location.href = "/login";
-        return;
-      }
-      const response = await axios.delete(
-        `http://localhost:5000/api/comment/${postId}/${commentId}`,
-        {
-          headers: {
-            "x-token": token,
-          },
-        }
-      );
-      setAllPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post._id === postId
-            ? {
-                ...post,
-                comments: response.data.comments,
-              }
-            : post
-        )
-      );
-      toast.success("Comment deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting comment:", error);
-      toast.error("Error deleting comment. Please try again.");
-    }
-  };
+
+
+
+
 
   return (
     <>
@@ -343,72 +325,70 @@ const Home = () => {
                       </div>
                     </div>
                     {commentVisible[post._id] && (
-                      <div className="comment-section1">
-                        <h4> Post Comments: {post.comments.length} </h4>
-                        <div className="comment-section2">
-                          <input
-                            type="text"
-                            placeholder="Write a comment..."
-                            value={
-                              selectedComment.commentId
-                                ? editedComment
-                                : comment
-                            }
-                            onChange={handleCommentChange}
-                            className="comment-input"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleCommentSubmit(post._id)}
-                          >
-                            {selectedComment.commentId ? "Update" : "Post"}
-                          </button>
-                        </div>
-                        <div>
-                          {post.comments.map((comment) => {
-                            const commentUser = allUsers.find(
-                              (u) => u._id === comment.postedBy
-                            );
-                            return (
-                              <div key={comment._id} className="comment">
-                                <div className="post-div">
-                                  <img
-                                    className="post-profile-pic"
-                                    src={`http://localhost:5000${
-                                      commentUser.profilePicture
-                                    }`}
-                                    alt="img"
-                                    style={{ width: "50px", height: "50px" }}
-                                  />
-                                  <h2
-                                    style={{
-                                      margin: "0%",
-                                      marginLeft: "15px",
-                                    }}
-                                  >
-                                    {`${commentUser.firstName} ${commentUser.lastName}`}
-                                  </h2>
-                                </div>
-                                <p>{comment.text}</p>
-                                <div>
-                                  <button
-                                    onClick={() =>
-                                      handleEditComment(post._id, comment._id)
-                                    }
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={() =>
-                                      handleDeleteComment(post._id, comment._id)
-                                    }
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })}
+                      <div className="comment-popup">
+                        <div className="comment-section1">
+                          <h4> Post Comments: {post.comments.length} </h4>
+                          <div className="comment-section2">
+                            <input
+                              type="text"
+                              placeholder="Write a comment..."
+                              value={comment}
+                              onChange={handleCommentChange}
+                              className="comment-input"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => handleCommentSubmit(e,post._id)}
+                            >
+                              Post
+                            </button>
+                          </div>
+                          <div>
+                            {post.comments.map((comment) => {
+                              const commentedUser = allUsers.find(
+                                (user) => user._id === comment.postedBy
+                              );
+
+                              // Check if commentedUser is defined before rendering
+                              if (commentedUser) {
+                                return (
+                                  <div key={comment._id} className="comment">
+                                    <div className="post-div">
+                                    {commentedUser.profilePicture !== null ? (
+    <img
+      className="post-profile-pic"
+      src={`http://localhost:5000${commentedUser.profilePicture}`}
+      alt="User Profile"
+      style={{ width: "40px", height: "40px" }}
+    />
+  ) : (
+    <div className="post-profile-pic" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: generateBackgroundColor(commentedUser), display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <span style={{ fontSize: "20px", color: "#" }}>{commentedUser.firstName.charAt(0).toUpperCase()}</span>
+    </div>
+  )}
+                                      <h3
+                                        style={{
+                                          margin: "0%",
+                                          marginLeft: "15px",
+                                        }}
+                                      >
+                                        {`${commentedUser.firstName} ${commentedUser.lastName}`}
+                                      </h3>
+                                    </div>
+                                    <p className="comment">{comment.text}</p>
+                                  </div>
+                                );
+                              } else {
+                                // Handle the case where commentedUser is undefined
+                                return (
+                                  <div key={comment._id} className="comment">
+                                    <p >User not found</p>
+                                    <p className="comment">{comment.text}</p>
+                                  </div>
+                                );
+                              }
+                            })}
+                          </div>
                         </div>
                       </div>
                     )}
