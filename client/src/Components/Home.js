@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+
 import Navbar from "./Navbar";
 import axios from "axios";
-import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { AiFillLike } from "react-icons/ai";
+import { AiFillDislike } from "react-icons/ai";
 import { FaCommentAlt } from "react-icons/fa";
 import { IoMdShare } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "./Home.css";
+import { calculateTimeDifference } from './PostingTime';
 
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
@@ -15,12 +17,6 @@ const Home = () => {
   const [moreVisible, setMoreVisible] = useState(false);
   const [comment, setComment] = useState("");
   const [postComments, setPostComments] = useState({});
-  const [selectedComment, setSelectedComment] = useState({
-    postId: null,
-    commentId: null,
-  });
-  const [editedComment, setEditedComment] = useState("");
-  const [user, setUser] = useState(null); // Assuming you have a user state
 
   const handleCommentClick = (postId) => {
     setCommentVisible((prevVisible) => ({
@@ -30,11 +26,7 @@ const Home = () => {
   };
 
   const handleCommentChange = (e) => {
-    if (selectedComment.commentId) {
-      setEditedComment(e.target.value);
-    } else {
-      setComment(e.target.value);
-    }
+    setComment(e.target.value);
   };
 
   const handleMoreclick = () => {
@@ -45,33 +37,75 @@ const Home = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.get("http://localhost:5000/api/allPosts");
-      const responseData = response.data.reverse();
-      setAllPosts(responseData);
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Please login to submit a comment.");
+        window.location.href = "/login";
+        return;
+      }
+
+      const response = await axios.post(
+        `http://localhost:5000/api/comment/${postId}`,
+        {
+          text: comment,
+        },
+        {
+          headers: {
+            "x-token": token,
+          },
+        }
+      );
+
+      console.log("Comment submitted:", response.data);
+      setComment("");
+      setCommentVisible(null);
+
+      // Fetch comments immediately after submitting a comment
+      await fetchComments(postId);
+
+      // Update state with the new comment data if needed
+      setAllPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId
+            ? {
+                ...post,
+                comments: response.data.comments, // Update comments with the new data
+              }
+            : post
+        )
+      );
+
+      toast.success("Comment submitted successfully!");
     } catch (error) {
-      console.error(error);
+      console.error("Error submitting comment:", error);
+      toast.error("Error submitting comment. Please try again.");
     }
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
   const handleLike = (e, postId, userId) => {
     e.preventDefault();
+
     const token = localStorage.getItem("token");
+
     if (!token) {
       toast.error("Please login to add items to the wishlist.");
       window.location.href = "/login";
       return;
     }
+
     axios
-      .post(`http://localhost:5000/api/like/${postId}`, null, {
-        headers: {
-          "x-token": token,
-        },
-      })
+      .post(
+        `http://localhost:5000/api/like/${postId}`,
+        null, // No request data needed
+        {
+          headers: {
+            "x-token": token,
+          },
+        }
+      )
       .then((response) => {
+        console.log(response.data);
         setAllPosts((prevPosts) => {
           return prevPosts.map((post) =>
             post._id === postId ? response.data : post
@@ -85,6 +119,7 @@ const Home = () => {
     axios
       .post(`http://localhost:5000/api/dislike/${postId}/${userId}`)
       .then((response) => {
+        console.log(response.data);
         setAllPosts((prevPosts) => {
           return prevPosts.map((post) =>
             post._id === postId ? response.data : post
@@ -94,65 +129,6 @@ const Home = () => {
       .catch((error) => console.error("Error disliking media:", error));
   };
 
-  const handleCommentSubmit = async (postId) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Please login to submit a comment.");
-        window.location.href = "/login";
-        return;
-      }
-
-      if (selectedComment.commentId) {
-        await axios.put(
-          `http://localhost:5000/api/comment/${postId}/${selectedComment.commentId}`,
-          {
-            text: editedComment,
-          },
-          {
-            headers: {
-              "x-token": token,
-            },
-          }
-        );
-        setEditedComment("");
-        setSelectedComment({ postId: null, commentId: null });
-      } else {
-        const response = await axios.post(
-          `http://localhost:5000/api/comment/${postId}`,
-          {
-            text: comment,
-          },
-          {
-            headers: {
-              "x-token": token,
-            },
-          }
-        );
-        setComment("");
-        setCommentVisible((prevVisible) => ({
-          ...prevVisible,
-          [postId]: false,
-        }));
-        await fetchComments(postId);
-        setAllPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post._id === postId
-              ? {
-                  ...post,
-                  comments: response.data.comments,
-                }
-              : post
-          )
-        );
-      }
-
-      toast.success("Comment submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting comment:", error);
-      toast.error("Error submitting comment. Please try again.");
-    }
-  };
 
   const fetchComments = async (postId) => {
     try {
@@ -160,7 +136,9 @@ const Home = () => {
         console.error("Error: postId is undefined.");
         return;
       }
+
       const token = localStorage.getItem("token");
+
       const response = await axios.get(
         `http://localhost:5000/api/comments/${postId}`,
         {
@@ -169,8 +147,13 @@ const Home = () => {
           },
         }
       );
+
       const comments = response.data.comments;
+
+      console.log(`Comments for post ${postId}:`, comments);
+
       if (Array.isArray(comments)) {
+        // Handle comments as needed (e.g., update state to display comments)
         setPostComments((prevComments) => ({
           ...prevComments,
           [postId]: comments,
@@ -180,19 +163,35 @@ const Home = () => {
       }
     } catch (error) {
       console.error("Error fetching comments:", error);
+      // Commented out the following line to avoid unnecessary toasts on component mount
+      // toast.error("Error fetching comments. Please try again.");
     }
   };
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/allPosts");
+        const responseData = response.data.reverse();
+        console.log(responseData);
+        setAllPosts(responseData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     const fetchUsers = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/allUsers");
         const responseData = response.data;
+        console.log(responseData);
         setAllUsers(responseData);
       } catch (error) {
         console.error(error);
       }
     };
+
+    fetchPosts();
     fetchUsers();
   }, []);
 
@@ -227,24 +226,28 @@ const Home = () => {
           </header>
           <div className="feed-container">
             {allPosts.map((post) => {
-              if (!post._id) {
-                return null; // or some other fallback
-              }
+              const user = allUsers.find(
+                (user) => user._id === post.Author.UserId
+              );
 
-              const postUser = allUsers.find((u) => u._id === post.Author.UserId);
-
-              if (postUser) {
+              // Check if user is found
+              if (user) {
                 return (
-                  <div className="post" key={post._id}>
+                  <div className="post" key={post.id}>
                     <div className="post-div">
                       <img
                         className="post-profile-pic"
-                        src={`http://localhost:5000${postUser.profilePicture}`}
+                        src={`http://localhost:5000${user.profilePicture}`}
                         alt="img"
                       />
+                      <div>
                       <h2 style={{ margin: "0%", marginLeft: "15px" }}>
-                        {`${postUser.firstName} ${postUser.lastName}`}
+                        {`${user.firstName} ${user.lastName}`}
                       </h2>
+                      <p className="card1-timestamp">
+                  Posted {calculateTimeDifference(post.createdAt)}
+                  </p>
+                  </div>
                     </div>
                     <div className="post-div1">
                       {(post.type &&
@@ -301,6 +304,7 @@ const Home = () => {
                           {post.likes} Likes
                         </p>
                       </div>
+
                       <div
                         className="post-div3"
                         onClick={() => handleDislike(post._id, post.Author.UserId)}
@@ -310,15 +314,18 @@ const Home = () => {
                           {post.dislikes} Dislikes
                         </p>
                       </div>
+
                       <div
                         className="post-div3"
                         onClick={() => handleCommentClick(post._id)}
                       >
                         <FaCommentAlt className="post-like" />
                         <p style={{ margin: "0%", marginLeft: "5px" }}>
-                          {post.comments.length} Comments
+                          {" "}
+                          {post.comments.length} Comments{" "}
                         </p>
                       </div>
+
                       <div className="post-div3">
                         <IoMdShare className="post-like" />
                         <p style={{ margin: "0%", marginLeft: "5px" }}>Share</p>
@@ -354,17 +361,21 @@ const Home = () => {
                                 return (
                                   <div key={comment._id} className="comment">
                                     <div className="post-div">
-                                    {commentedUser.profilePicture !== null ? (
-    <img
+                                    
+                                    {commentedUser.profilePicture == 'null' || commentedUser.profilePicture == null ? (
+    <div className="post-profile-pic" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: generateBackgroundColor(commentedUser), display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <span style={{ fontSize: "20px", color: "#" }}>{commentedUser.firstName.charAt(0).toUpperCase()}</span>
+  </div>
+
+  ) : (
+   
+
+<img
       className="post-profile-pic"
       src={`http://localhost:5000${commentedUser.profilePicture}`}
       alt="User Profile"
       style={{ width: "40px", height: "40px" }}
     />
-  ) : (
-    <div className="post-profile-pic" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: generateBackgroundColor(commentedUser), display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <span style={{ fontSize: "20px", color: "#" }}>{commentedUser.firstName.charAt(0).toUpperCase()}</span>
-    </div>
   )}
                                       <h3
                                         style={{
@@ -375,7 +386,7 @@ const Home = () => {
                                         {`${commentedUser.firstName} ${commentedUser.lastName}`}
                                       </h3>
                                     </div>
-                                    <p className="comment">{comment.text}</p>
+                                    <p className="comment-text">{comment.text}</p>
                                   </div>
                                 );
                               } else {
@@ -383,7 +394,7 @@ const Home = () => {
                                 return (
                                   <div key={comment._id} className="comment">
                                     <p >User not found</p>
-                                    <p className="comment">{comment.text}</p>
+                                    <p className="comment-text">{comment.text}</p>
                                   </div>
                                 );
                               }
@@ -392,9 +403,11 @@ const Home = () => {
                         </div>
                       </div>
                     )}
+                    
                   </div>
                 );
               } else {
+                // Handle the case when user is not found
                 return (
                   <div className="post" key={post.id}>
                     <p>User not found</p>
