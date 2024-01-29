@@ -23,6 +23,8 @@ router.post('/like/:postId',authMiddleware, postController.likePost);
 router.post('/dislike/:postId',authMiddleware, postController.dislikePost);
 router.post('/comment/:postId',authMiddleware, postController.commentPost);
 router.get('/allPosts', postController.readPosts);
+router.put('/comment/:postId/:commentId', authMiddleware, postController.updateComment);
+router.delete('/comment/:postId/:commentId', authMiddleware, postController.deleteComment);
 
 module.exports = router;
 

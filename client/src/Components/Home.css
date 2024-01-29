@@ -8,10 +8,29 @@
   
   .post-div {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+     align-items: center;
+    margin-bottom: 10px; 
+    
+  }
+
+
+
+  .post-div1{
+    display: flex;
+    justify-content: space-between;
   }
   
+  .pnt-div{
+    display: flex;
+    
+  }
+
+  .laxmi123 { 
+    margin: 0;
+    display: inline;
+    margin-left: 5px;
+    
+  }
   .post-profile-pic {
     width: 70px;
     height: 70px;
@@ -87,6 +106,8 @@
     height: 350px;
     overflow: auto;
     margin-top: 10px;
+    border-radius: 4px;
+    padding: 15px;
     background-color: #e1e1e1;
   }
   .comment-section1::-webkit-scrollbar{
@@ -117,6 +138,25 @@
 
     
    }
-   .comment{
-    margin-left: 75px;
+   .comment-text{
+    margin-left: 65px;
    }
+   .laxmi123{
+ 
+   }
+   .comment-buttons{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+   }
+   .cedit-button,.cdelete-button,.creply-button{
+    
+    
+   }
+   .cldr{
+    display: flex;
+    column-gap: 40px;
+    margin-left: 65px;
+    margin-bottom: 20px;
+   }
+   

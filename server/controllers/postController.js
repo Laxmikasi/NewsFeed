@@ -174,13 +174,67 @@ exports.commentPost = async (req, res) => {
     if (text && typeof text === 'string' && text.trim() !== '') {
       // Change here to include userId in the postedBy field
       post.comments.push({ text, postedBy: userId });
-      await post.save();
-      return res.json({ message: 'Commented successfully' });
+       const savedComments = await post.save();
+      return res.status(200).json( savedComments);
     } else {
       return res.status(400).json({ error: 'Invalid comment text' });
     }
   } catch (error) {
     console.error('Error commenting on media:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+exports.deleteComment = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    // Use filter to exclude the comment with the specified commentId
+    post.comments = post.comments.filter(comment => comment._id != commentId);
+
+    await post.save();
+
+    res.status(200).json({ message: 'Comment deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+    res.status(500).json({ error: 'Internal Server Error: Could not delete comment' });
+  }
+};
+
+
+
+exports.updateComment = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+    const newText = req.body.text; // Assuming you send the updated text in the request body
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    const comment = post.comments.id(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    comment.text = newText;
+    await post.save();
+
+    res.status(200).json({ message: 'Comment updated successfully' });
+  } catch (error) {
+    console.error('Error updating comment:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
