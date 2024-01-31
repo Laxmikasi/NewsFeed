@@ -24,7 +24,7 @@ const MyPost = () => {
   const handleLike = (postId) => {
     
     axios.post(
-      `http://localhost:5000/api/like/${postId}`,
+      `${BASE_URL}/api/like/${postId}`,
       {},
       {
         headers: {
@@ -45,7 +45,7 @@ const MyPost = () => {
   const handleDislike = (postId) => {
 
     axios.post(
-      `http://localhost:5000/api/dislike/${postId}`,
+      `${BASE_URL}/api/dislike/${postId}`,
       {},
       {
         headers: {
@@ -87,7 +87,7 @@ const MyPost = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/gallery`, {
+      .get(`${BASE_URL}/api/gallery`, {
         headers: {
           "x-token": token,
         },
@@ -125,19 +125,19 @@ const MyPost = () => {
         <div className='MyPost'>
             <div className='MyPost-img'>
                 {/* <img className='Postimage'
-                 src={`http://localhost:5000${post.image}`}
+                 src={`${BASE_URL}${post.image}`}
                   alt='img' /> */}
 
 
 {post.image && post.image.includes('video') ? (
             <video controls style={{width:'100%'}}>
-              <source src={`http://localhost:5000${post.image}`} type="video/mp4" />
+              <source src={`${BASE_URL}${post.image}`} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           ) : (
             <img
               className='Postimage'
-              src={`http://localhost:5000${post.image}`}
+              src={`${BASE_URL}${post.image}`}
               alt='img'
             />
           )}

@@ -18,7 +18,7 @@ const ResetPassword = () => {
     e.preventDefault();
   
     try {
-      const res = await axios.post(`http://localhost:5000/api/reset-password/${email}`, { password });
+      const res = await axios.post(`${BASE_URL}/api/reset-password/${email}`, { password });
   
       if (res.data.Status === "Success") {
         navigate('/login');

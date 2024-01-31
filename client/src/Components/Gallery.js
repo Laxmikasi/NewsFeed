@@ -13,7 +13,7 @@ const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/gallery`, {
+      .get(`${BASE_URL}/api/gallery`, {
         headers: {
           "x-token": token,
         },
@@ -50,17 +50,17 @@ const [posts, setPosts] = useState([]);
               <div className="post-div1">
                       {(post.type && post.type.toLowerCase() === 'mp4') || (post.type && post.type.toLowerCase() === 'mp3') ? (
                         <video controls className='post-video'style={{height:'152px',objectFit:"inherit",marginBottom:'0%'}}>
-                          <source src={`http://localhost:5000${post.image}`} />
+                          <source src={`${BASE_URL}${post.image}`} />
                           Your browser does not support the video tag.
                         </video>
                       ) : (
                         <img className="post-picture"
-                          src={`http://localhost:5000${post.image}`}
+                          src={`${BASE_URL}${post.image}`}
                           alt="img" />
                       )}
                     </div>
 
-                {/* <img src={`http://localhost:5000${post.image}`} 
+                {/* <img src={`${BASE_URL}${post.image}`} 
                 alt={''} className="card1-image" /> */}
                 <div className="card1-content">
                   <h6 className="card1-title">{post.title.substring(0,50)}</h6>

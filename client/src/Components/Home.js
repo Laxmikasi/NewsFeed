@@ -36,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/profile`, {
+      .get(`${BASE_URL}/api/profile`, {
         headers: {
           "x-token": token,
         },
@@ -87,7 +87,7 @@ const Home = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:5000/api/comment/${postId}`,
+        `${BASE_URL}/api/comment/${postId}`,
         {
           text: comment,
         },
@@ -127,7 +127,7 @@ const Home = () => {
 
     axios
       .post(
-        `http://localhost:5000/api/like/${postId}`,
+        `${BASE_URL}/api/like/${postId}`,
         null, // No request data needed
         {
           headers: {
@@ -158,8 +158,8 @@ const Home = () => {
     }
     axios
       .post(
-        `http://localhost:5000/api/dislike/${postId}`,
-        null, // No request data needed
+        `${BASE_URL}/api/dislike/${postId}`,
+        null, // No request data 
         {
           headers: {
             "x-token": token,
@@ -187,7 +187,7 @@ const Home = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.delete(
-          `http://localhost:5000/api/comment/${postId}/${commentId}`,
+          `${BASE_URL}/api/comment/${postId}/${commentId}`,
           { headers: { "x-token": token } }
         );
 
@@ -255,7 +255,7 @@ const Home = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.put(
-          `http://localhost:5000/api/comment/${postId}/${commentId}`,
+          `${BASE_URL}/api/comment/${postId}/${commentId}`,
           { text: newText },
           { headers: { "x-token": token } }
         );
@@ -299,7 +299,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/allPosts");
+        const response = await axios.get("${BASE_URL}/api/allPosts");
         const responseData = response.data.reverse();
         console.log(responseData);
         setAllPosts(responseData);
@@ -310,7 +310,7 @@ const Home = () => {
 
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/allUsers");
+        const response = await axios.get("${BASE_URL}/api/allUsers");
         const responseData = response.data;
         console.log(responseData);
         setAllUsers(responseData);
@@ -367,7 +367,7 @@ const Home = () => {
                       <div className="post-div">
                         <img
                           className="post-profile-pic"
-                          src={`http://localhost:5000${user.profilePicture}`}
+                          src={`${BASE_URL}${user.profilePicture}`}
                           alt="img"
                         />
                         <div>
@@ -385,14 +385,14 @@ const Home = () => {
                           post.type.toLowerCase() === "mp3") ? (
                           <video controls className="post-video">
                             <source
-                              src={`http://localhost:5000${post.image}`}
+                              src={`${BASE_URL}${post.image}`}
                             />
                             Your browser does not support the video tag.
                           </video>
                         ) : (
                           <img
                             className="post-picture"
-                            src={`http://localhost:5000${post.image}`}
+                            src={`${BASE_URL}${post.image}`}
                             alt="img"
                           />
                         )}
@@ -590,7 +590,7 @@ const Home = () => {
                                             ) : (
                                               <img
                                                 className="post-profile-pic"
-                                                src={`http://localhost:5000${commentedUser.profilePicture}`}
+                                                src={`${BASE_URL}${commentedUser.profilePicture}`}
                                                 alt="User Profile"
                                                 style={{
                                                   width: "40px",

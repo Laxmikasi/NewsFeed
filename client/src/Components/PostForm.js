@@ -28,7 +28,7 @@ const PostForm = () => {
 
       useEffect(() => {
         axios
-          .get(`http://localhost:5000/api/profile`, {
+          .get(`${BASE_URL}/api/profile`, {
             headers: {
               "x-token": token,
             },
@@ -89,7 +89,7 @@ return (
                 width:"100px",
                 height:'100px',
                 borderRadius:'50%'
-            }}  src={`http://localhost:5000${user.profilePicture}`} 
+            }}  src={`${BASE_URL}${user.profilePicture}`} 
             alt='img' />
         )}
 

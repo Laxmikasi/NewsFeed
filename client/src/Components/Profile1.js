@@ -33,7 +33,7 @@ const Profile1 = () => {
         formDataWithPicture.append('profilePicture', formData.profilePicture);
       }
   
-      const response = await axios.put('http://localhost:5000/api/profile', formDataWithPicture, {
+      const response = await axios.put('${BASE_URL}/api/profile', formDataWithPicture, {
         headers: {
           "x-token": token,
           'Content-Type': 'multipart/form-data',
@@ -72,7 +72,7 @@ const Profile1 = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/profile`, {
+      .get(`${BASE_URL}/api/profile`, {
         headers: {
           "x-token": token,
         },
@@ -97,7 +97,7 @@ const Profile1 = () => {
                 width:"100px",
                 height:'100px',
                 borderRadius:'50%'
-            }} src={`http://localhost:5000${formData.profilePicture}`}  alt='img' />
+            }} src={`${BASE_URL}${formData.profilePicture}`}  alt='img' />
               {editing && (
                 <label>
                   {/* <IoMdCloudDownload /> */}

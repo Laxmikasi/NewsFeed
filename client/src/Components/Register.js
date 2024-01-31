@@ -51,7 +51,7 @@ const validatePassword = (password) => {
     }
     else{
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
+      const response = await axios.post('${BASE_URL}/api/register', formData);
 
       if (response.status === 201) {
         // Display success message using toast.success

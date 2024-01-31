@@ -3,6 +3,7 @@ import { Link ,useNavigate} from 'react-router-dom';
 import { FcLock } from 'react-icons/fc';
 import './ForgotPassword.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { BASE_URL } from '../Helper.js/Helper';
 
 
 const ForgotPassword = () => {
@@ -16,7 +17,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/forgot', {
+      const response = await fetch(`${BASE_URL}/api/forgot`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/verify-otp', {
+      const response = await fetch(`${BASE_URL}/api/verify-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -28,7 +28,7 @@ function Profile() {
 
   // useEffect(() => {
   //   // Fetch videos when the component mounts
-  //   axios.get('http://localhost:5000/videos')
+  //   axios.get('${BASE_URL}/videos')
   //     .then(response => setVideos(response.data))
   //     .catch(error => console.error('Error fetching videos:', error));
   // }, []);
@@ -61,7 +61,7 @@ function Profile() {
       formDataWithPicture.append('image', formData.image);
   
       const response = await axios.post(
-        `http://localhost:5000/api/addPost`,
+        `${BASE_URL}/api/addPost`,
         formDataWithPicture,
         {
           headers: {

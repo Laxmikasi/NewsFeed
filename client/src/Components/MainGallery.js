@@ -48,7 +48,7 @@ const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/profile`, {
+      .get(`${BASE_URL}/api/profile`, {
         headers: {
           "x-token": token,
         },
@@ -81,7 +81,7 @@ const [posts, setPosts] = useState([]);
                   Posted {calculateTimeDifference(post.createdAt)}
                   </p>
               <Link to={`/post/${post._id}`}>
-                <img src={`http://localhost:5000${post.image}`} alt={''} className="card1-image" />
+                <img src={`${BASE_URL}${post.image}`} alt={''} className="card1-image" />
                 <div className="card1-content">
                   <h6 className="card1-title">{post.title}</h6>
                   

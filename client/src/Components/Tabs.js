@@ -93,7 +93,7 @@ export default function BasicTabs() {
       
 
       const response = await axios.post(
-        `http://localhost:5000/api/post`,
+        `${BASE_URL}/api/post`,
         formDataWithPicture,
         {
           headers: {
