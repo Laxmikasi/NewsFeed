@@ -7,6 +7,7 @@ import { FaCommentAlt } from 'react-icons/fa';
 import { IoMdShare } from 'react-icons/io';
 import{useParams} from "react-router-dom";
 import axios from 'axios';
+import { BASE_URL } from '../Helper.js/Helper';
 
 const MyPost = () => {
   const { postId } = useParams();

@@ -7,7 +7,7 @@ import { RiBookOpenLine } from "react-icons/ri";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
-
+import { BASE_URL } from '../Helper.js/Helper';
 
 function Profile() {
   const [videos, setVideos] = useState([]);

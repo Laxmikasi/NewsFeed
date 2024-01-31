@@ -3,7 +3,7 @@ import Gallery from './Gallery';
 import { Link } from "react-router-dom"
 import axios from 'axios';
 import { format } from 'date-fns';
-
+import { BASE_URL } from '../Helper.js/Helper';
 
 
 const MainGallery = () => {

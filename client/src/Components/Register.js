@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 // import Navbar from './Navbar';
 import './Register.css'
+import { BASE_URL } from '../Helper.js/Helper';
 
 
 const Register = () => {
@@ -51,7 +52,7 @@ const validatePassword = (password) => {
     }
     else{
     try {
-      const response = await axios.post('${BASE_URL}/api/register', formData);
+      const response = await axios.post(`${BASE_URL}/api/register`, formData);
 
       if (response.status === 201) {
         // Display success message using toast.success

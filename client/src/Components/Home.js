@@ -14,7 +14,7 @@ import "./Home.css";
 import { calculateTimeDifference } from "./PostingTime";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import{FacebookShareButton, WhatsappShareButton,FacebookIcon,WhatsappIcon} from "react-share";
-
+import { BASE_URL } from '../Helper.js/Helper';
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -299,7 +299,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("${BASE_URL}/api/allPosts");
+        const response = await axios.get(`${BASE_URL}/api/allPosts`);
         const responseData = response.data.reverse();
         console.log(responseData);
         setAllPosts(responseData);
@@ -310,7 +310,7 @@ const Home = () => {
 
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("${BASE_URL}/api/allUsers");
+        const response = await axios.get(`${BASE_URL}/api/allUsers`);
         const responseData = response.data;
         console.log(responseData);
         setAllUsers(responseData);

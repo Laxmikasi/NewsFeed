@@ -2,7 +2,7 @@ import {React,useState} from 'react'
 import './ForgotPassword.css';
 import{useNavigate,useLocation} from "react-router-dom"
 import axios from "axios";
-
+import { BASE_URL } from '../Helper.js/Helper';
 
 
 

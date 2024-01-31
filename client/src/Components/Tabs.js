@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Profile1 from './Profile1';
+import { BASE_URL } from '../Helper.js/Helper';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

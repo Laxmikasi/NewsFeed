@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Profile1.css';
 import postimage from '../Assets/backgroung.webp'
 // import { IoMdCloudDownload } from "react-icons/io";
+import { BASE_URL } from '../Helper.js/Helper';
 
 const Profile1 = () => {
   const [editing, setEditing] = useState(false);
@@ -33,7 +34,7 @@ const Profile1 = () => {
         formDataWithPicture.append('profilePicture', formData.profilePicture);
       }
   
-      const response = await axios.put('${BASE_URL}/api/profile', formDataWithPicture, {
+      const response = await axios.put(`${BASE_URL}/api/profile`, formDataWithPicture, {
         headers: {
           "x-token": token,
           'Content-Type': 'multipart/form-data',

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import axios from 'axios';
 import { format } from 'date-fns';
 import { calculateTimeDifference } from './PostingTime';
-
+import { BASE_URL } from '../Helper.js/Helper';
 
 const Gallery = () => {
   

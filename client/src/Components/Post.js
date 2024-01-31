@@ -1,3 +1,4 @@
+
 <div >
           {post.image.endsWith('.jpg') || post.image.endsWith('.jpeg') ? (
   <img src={`${BASE_URL}${post.image}`} alt="img" />
