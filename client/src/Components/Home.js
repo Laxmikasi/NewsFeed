@@ -13,8 +13,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "./Home.css";
 import { calculateTimeDifference } from "./PostingTime";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import{FacebookShareButton, WhatsappShareButton,FacebookIcon,WhatsappIcon} from "react-share";
+import{FacebookShareButton, WhatsappShareButton,EmailShareButton,TwitterShareButton,
+  FacebookIcon,LinkedinShareButton,WhatsappIcon,LinkedinIcon,EmailIcon,TwitterIcon,} from "react-share";
 import { BASE_URL } from '../Helper.js/Helper';
+
 const Home = ({ postUrl }) => {
   const [allPosts, setAllPosts] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -55,11 +57,8 @@ const Home = ({ postUrl }) => {
     }));
   };
 
-  const handleShareClick = (postId) => {
+  const handleShareClick = () => {
     setShareButtons(!shareButtons);
-    // Construct the post URL based on the post ID
-    const postUrl = `https://myserver-1xnr.onrender.com/api/allPosts/${postId}`;
-    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(postUrl)}`, '_blank');
   };
 
   const postQuote = 'Please share this post';
@@ -287,6 +286,7 @@ const Home = ({ postUrl }) => {
               return post;
             });
           });
+          //poiuy
           setComment("");
           setIsEditing(false);
           toast.success("Comment edited successfully");
@@ -466,7 +466,7 @@ const Home = ({ postUrl }) => {
                               : 0}
                           </p>
                         </div>
-
+                    
                         <div className="post-div3"
                         onClick={(e) => handleShareClick(post._id)}
                         >
@@ -474,17 +474,25 @@ const Home = ({ postUrl }) => {
                           <p style={{ margin: "0%", marginLeft: "5px" }}>
                             Share
                           </p>
+                          
+
                         </div>
-                        {shareButtons && (
-        <div className="share-buttons">
-          <FacebookShareButton url={postUrl} quote={postQuote} hashtag={postHashtag}>
-            <FacebookIcon size={32} round />
-          </FacebookShareButton>
-          <WhatsappShareButton url={postUrl} quote={postQuote} hashtag={postHashtag}>
-            <WhatsappIcon size={32} round   />
-          </WhatsappShareButton>
-        </div>
-      )}
+                   {shareButtons&&
+                   <div className="share-buttons">
+                  <FacebookShareButton 
+                   url="https://amazon.com"
+
+                   
+                  quote="please share this post"
+                  hashtag = "#code"
+                  >
+                   <FacebookIcon/>  
+                  </FacebookShareButton>
+                  <WhatsappShareButton>
+    
+                  </WhatsappShareButton>
+                   </div>
+                   }
                  </div>
                       {commentVisible?.[post._id] && (
                         <div className="comment-popup">

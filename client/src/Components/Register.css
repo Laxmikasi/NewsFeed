@@ -7,7 +7,7 @@
 }
 
 .Reg{
-     /* background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fnewspaper-laptop&psig=AOvVaw37Q8BC88CcM6MpeidWlGBY&ust=1705244593820000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCOjXjqjR2oMDFQAAAAAdAAAAABAI'); */
+     
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -38,9 +38,10 @@
     background: transparent;
     margin-left: 60%;
 }
+
 .Reg-but{
     margin: 3%;
-    width: 250px;
+    width: 260px;
     padding:10px 20px;
     background-color:blue;
     color:#fff;
@@ -52,7 +53,7 @@
     transform: scale(1.05);
 }
 .Reg-input{
-    width: 220px;
+    width: 250px;
     padding: 12px;
     margin-bottom: 15px;
     background-color:#fff;
