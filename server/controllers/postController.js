@@ -159,6 +159,28 @@ exports.readPosts= async (req, res) => {
 };
 
 
+exports.readPostsone = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+
+    if (!Post.isValidObjectId(postId)) {
+      return res.status(400).json({ error: 'Invalid postId format' });
+    }
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    res.status(200).json(post);
+  } catch (error) {
+    console.error('Error fetching post details:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+};
+
+
 
 exports.commentPost = async (req, res) => {
   try {
@@ -238,3 +260,5 @@ exports.updateComment = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+

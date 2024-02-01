@@ -15,7 +15,7 @@ import { calculateTimeDifference } from "./PostingTime";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import{FacebookShareButton, WhatsappShareButton,FacebookIcon,WhatsappIcon} from "react-share";
 import { BASE_URL } from '../Helper.js/Helper';
-const Home = () => {
+const Home = ({ postUrl }) => {
   const [allPosts, setAllPosts] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [commentVisible, setCommentVisible] = useState({});
@@ -55,9 +55,15 @@ const Home = () => {
     }));
   };
 
-  const handleShareClick = () => {
+  const handleShareClick = (postId) => {
     setShareButtons(!shareButtons);
+    // Construct the post URL based on the post ID
+    const postUrl = `https://myserver-1xnr.onrender.com/api/allPosts/${postId}`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(postUrl)}`, '_blank');
   };
+
+  const postQuote = 'Please share this post';
+  const postHashtag = '#code';
 
 
   const handleMoreclick = () => {
@@ -469,22 +475,16 @@ const Home = () => {
                             Share
                           </p>
                         </div>
-                   {shareButtons&&
-                   <div className="share-buttons">
-                  <FacebookShareButton 
-                   url="https://amazon.com"
-
-                   
-                  quote="please share this post"
-                  hashtag = "#code"
-                  >
-                   <FacebookIcon/>  
-                  </FacebookShareButton>
-                  <WhatsappShareButton>
-    
-                  </WhatsappShareButton>
-                   </div>
-                   }
+                        {shareButtons && (
+        <div className="share-buttons">
+          <FacebookShareButton url={postUrl} quote={postQuote} hashtag={postHashtag}>
+            <FacebookIcon size={32} round />
+          </FacebookShareButton>
+          <WhatsappShareButton url={postUrl} quote={postQuote} hashtag={postHashtag}>
+            <WhatsappIcon size={32} round   />
+          </WhatsappShareButton>
+        </div>
+      )}
                  </div>
                       {commentVisible?.[post._id] && (
                         <div className="comment-popup">
