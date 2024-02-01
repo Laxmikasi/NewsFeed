@@ -484,14 +484,8 @@ const Home = () => {
     
                   </WhatsappShareButton>
                    </div>
-
-
-
                    }
-
-
-
-                      </div>
+                 </div>
                       {commentVisible?.[post._id] && (
                         <div className="comment-popup">
                           <div className="comment-section1">
