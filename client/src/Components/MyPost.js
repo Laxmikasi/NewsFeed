@@ -22,7 +22,7 @@ const MyPost = () => {
 
 
 
-  const handleLike = (postId) => {
+  const handleLike = () => {
     
     axios.post(
       `${BASE_URL}/api/like/${postId}`,

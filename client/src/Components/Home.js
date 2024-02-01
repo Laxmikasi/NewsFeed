@@ -1,40 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import Navbar from "./Navbar";
 import axios from "axios";
-import { AiFillLike } from "react-icons/ai";
-import { AiFillDislike } from "react-icons/ai";
+import { AiFillDislike, AiFillLike } from "react-icons/ai";
+import { BiCommentDetail, BiDislike, BiLike } from "react-icons/bi";
 import { FaCommentAlt } from "react-icons/fa";
-import { BiLike } from "react-icons/bi";
-import { BiDislike } from "react-icons/bi";
-import { BiCommentDetail } from "react-icons/bi";
-import { IoMdShare } from "react-icons/io";
-import { ToastContainer, toast } from "react-toastify";
-import "./Home.css";
-import { calculateTimeDifference } from "./PostingTime";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import{FacebookShareButton, WhatsappShareButton,EmailShareButton,TwitterShareButton,
-  FacebookIcon,LinkedinShareButton,WhatsappIcon,LinkedinIcon,EmailIcon,TwitterIcon,} from "react-share";
+import { IoMdShare } from "react-icons/io";
+import {
+  FacebookIcon,
+  FacebookShareButton, WhatsappShareButton
+} from "react-share";
+import { ToastContainer, toast } from "react-toastify";
 import { BASE_URL } from '../Helper.js/Helper';
+import "./Home.css";
+import Navbar from "./Navbar";
+import { calculateTimeDifference } from "./PostingTime";
 
-const Home = ({ postUrl }) => {
+const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [commentVisible, setCommentVisible] = useState({});
   const [moreVisible, setMoreVisible] = useState(false);
   const [comment, setComment] = useState("");
-  const [postComments, setPostComments] = useState({});
   const [editing, setEditing] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [displayButtons, setDisplayButtons] = useState(false);
-  const [commentLikes, setCommentLikes] = useState(0);
-  const [commentDislikes, setCommentDislikes] = useState(0);
+  const [commentLikes, ] = useState(0);
+  const [commentDislikes, ] = useState(0);
   const [loginUser, setLoginUser] = useState("");
   const [shareButtons, setShareButtons] = useState(false);
   const commentSectionRef = useRef(null);
 
   const [token] = useState(localStorage.getItem("token"));
-  const currentPageUrl = window.location.href;
+ 
 
   useEffect(() => {
     axios
@@ -61,8 +59,8 @@ const Home = ({ postUrl }) => {
     setShareButtons(!shareButtons);
   };
 
-  const postQuote = 'Please share this post';
-  const postHashtag = '#code';
+  // const postQuote = 'Please share this post';
+  // const postHashtag = '#code';
 
 
   const handleMoreclick = () => {
@@ -558,9 +556,9 @@ const Home = ({ postUrl }) => {
                                       >
                                         <div className="post-div1">
                                           <div className="pnt-div">
-                                            {commentedUser.profilePicture ==
+                                            {commentedUser.profilePicture ===
                                               "null" ||
-                                            commentedUser.profilePicture ==
+                                            commentedUser.profilePicture ===
                                               null ? (
                                               <div
                                                 className="post-profile-pic"
