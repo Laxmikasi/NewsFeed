@@ -1,4 +1,4 @@
-import React,{useState,useCallback,useEffect} from 'react'
+import React,{useState,useEffect} from 'react'
 import img from '../Assets/backgroung.webp'
 import './MyPost.css'
 import { AiFillLike } from 'react-icons/ai';
@@ -11,13 +11,13 @@ import { BASE_URL } from '../Helper.js/Helper';
 
 const MyPost = () => {
   const { postId } = useParams();
-  const [likes, setLikes] = useState('');
-  const [dislikes,setDislikes]=useState('')
+  
+ 
   const [commentVisible, setCommentVisible] = useState(false);
   const [moreVisible, setMoreVisible] = useState(false)
   const [comment, setComment] = useState('');
   const [post, setPost] = useState({});
-  const [error, setError] = useState("");
+  
   const [token] = useState(localStorage.getItem('token'));
 
 
