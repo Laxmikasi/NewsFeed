@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import React,{useState,createContext} from 'react'
+import React from 'react'
 import Register from './Components/Register';
-import Navbar from './Components/Navbar';
+
 import Login from './Components/Login';
 import ForgotPassword from './Components/ForgotPassword';
 import Profile from './Components/Profile';

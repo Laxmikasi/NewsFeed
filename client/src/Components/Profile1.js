@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile1.css';
-import postimage from '../Assets/backgroung.webp'
 // import { IoMdCloudDownload } from "react-icons/io";
 import { BASE_URL } from '../Helper.js/Helper';
 

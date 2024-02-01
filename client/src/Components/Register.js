@@ -13,9 +13,8 @@ import { BASE_URL } from '../Helper.js/Helper';
 const Register = () => {
 
   const navigate=useNavigate();
-    const [submitting, setSubmitting] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-  const [error, setError] = useState('');
+    const [submitting, ] = useState(false);
+   
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

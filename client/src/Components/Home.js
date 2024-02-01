@@ -23,18 +23,18 @@ const Home = () => {
   const [commentVisible, setCommentVisible] = useState({});
   const [moreVisible, setMoreVisible] = useState(false);
   const [comment, setComment] = useState("");
-  const [postComments, setPostComments] = useState({});
+  
   const [editing, setEditing] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [displayButtons, setDisplayButtons] = useState(false);
-  const [commentLikes, setCommentLikes] = useState(0);
-  const [commentDislikes, setCommentDislikes] = useState(0);
+  const [commentLikes, /*setCommentLikes*/] = useState(0);
+  const [commentDislikes, /*setCommentDislikes*/] = useState(0);
   const [loginUser, setLoginUser] = useState("");
   const [shareButtons, setShareButtons] = useState(false);
   const commentSectionRef = useRef(null);
 
   const [token] = useState(localStorage.getItem("token"));
-  const currentPageUrl = window.location.href;
+  // const currentPageUrl = window.location.href;
 
   useEffect(() => {
     axios
@@ -495,7 +495,7 @@ const Home = () => {
                    <FacebookIcon size={40} round={true}/>  
                   </FacebookShareButton>
                   <WhatsappShareButton
-                  url="https://jagadeeshpavan.vercel.app/"
+                  url="https://myserver-1xnr.onrender.com"
                   >
                     <WhatsappIcon size={40} round={true}/>
                   </WhatsappShareButton>
@@ -585,9 +585,9 @@ const Home = () => {
                                       >
                                         <div className="post-div1">
                                           <div className="pnt-div">
-                                            {commentedUser.profilePicture ==
+                                            {commentedUser.profilePicture ===
                                               "null" ||
-                                            commentedUser.profilePicture ==
+                                            commentedUser.profilePicture ===
                                               null ? (
                                               <div
                                                 className="post-profile-pic"

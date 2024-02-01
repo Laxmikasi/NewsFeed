@@ -7,8 +7,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import MainGallery from './Gallery';
-import Profile from './Profile';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Profile1 from './Profile1';
@@ -48,12 +46,12 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs() {
-  const [title, setTitle] = useState('');
+  
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
   const [token] = useState(localStorage.getItem('token'));
-  const [submitting, setSubmitting] = useState('');
+  const [, setSubmitting] = useState('');
 
   const [formData, setFormData] = useState({
     image: '',

@@ -1,6 +1,6 @@
 import React from 'react';
-import img from '../Assets/img3.jfif';
-import { CgProfile } from 'react-icons/cg';
+
+
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 

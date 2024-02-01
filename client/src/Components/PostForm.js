@@ -1,12 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import './PostForm.css'; // Import the CSS file
-// import { FaCloudUploadAlt } from 'react-icons/fa';
-import Tabs from './Tabs'
-import { Link } from 'react-router-dom';
 
-// import { Toast } from 'react-toastify/dist/types';
-import postimage from '../Assets/backgroung.webp'
-// import { toast } from 'react-toastify';
+import Tabs from './Tabs'
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';

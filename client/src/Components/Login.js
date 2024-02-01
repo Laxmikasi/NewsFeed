@@ -9,8 +9,7 @@ import { BASE_URL } from '../Helper.js/Helper';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [error, /*setError*/] = useState('');
  const [token, setToken] = useState('');
   const [formData, setFormData] = useState({
     email: '',
