@@ -13,8 +13,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "./Home.css";
 import { calculateTimeDifference } from "./PostingTime";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import{FacebookShareButton, WhatsappShareButton,FacebookIcon,WhatsappIcon} from "react-share";
+import{FacebookShareButton, WhatsappShareButton,EmailShareButton,TwitterShareButton,
+  FacebookIcon,LinkedinShareButton,WhatsappIcon,LinkedinIcon,EmailIcon,TwitterIcon,} from "react-share";
 import { BASE_URL } from '../Helper.js/Helper';
+
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -55,8 +57,11 @@ const Home = () => {
     }));
   };
 
-  const handleShareClick = () => {
-    setShareButtons(!shareButtons);
+  const handleShareClick = (postId) => {
+    setShareButtons((prevShareButtons) => ({
+   ...prevShareButtons,
+   [postId]:!prevShareButtons[postId]
+    }));
   };
 
 
@@ -281,6 +286,7 @@ const Home = () => {
               return post;
             });
           });
+          //poiuy
           setComment("");
           setIsEditing(false);
           toast.success("Comment edited successfully");
@@ -460,7 +466,7 @@ const Home = () => {
                               : 0}
                           </p>
                         </div>
-
+                    
                         <div className="post-div3"
                         onClick={(e) => handleShareClick(post._id)}
                         >
@@ -468,8 +474,15 @@ const Home = () => {
                           <p style={{ margin: "0%", marginLeft: "5px" }}>
                             Share
                           </p>
+                          
+
                         </div>
-                   {shareButtons&&
+                       
+                   
+
+                      </div>
+
+                      {shareButtons[post._id]&&
                    <div className="share-buttons">
                   <FacebookShareButton 
                    url="https://amazon.com"
@@ -477,21 +490,37 @@ const Home = () => {
                    
                   quote="please share this post"
                   hashtag = "#code"
+                  
                   >
-                   <FacebookIcon/>  
+                   <FacebookIcon size={40} round={true}/>  
                   </FacebookShareButton>
-                  <WhatsappShareButton>
-    
+                  <WhatsappShareButton
+                  url="https://jagadeeshpavan.vercel.app/"
+                  >
+                    <WhatsappIcon size={40} round={true}/>
                   </WhatsappShareButton>
+                  <TwitterShareButton
+                  url="https://amazon.com"
+                  >
+                    <TwitterIcon size={40} round={true}/>
+                  </TwitterShareButton>
+                  <LinkedinShareButton
+                  url="https://amazon.com"
+                  >
+                  <LinkedinIcon size={40} round={true}/>
+                  </LinkedinShareButton>
+                  <EmailShareButton
+                  url="https://amazon.com"
+                  >
+                    <EmailIcon size={40} round={true}/>
+                  </EmailShareButton>
                    </div>
-
-
-
                    }
 
 
 
-                      </div>
+
+
                       {commentVisible?.[post._id] && (
                         <div className="comment-popup">
                           <div className="comment-section1">

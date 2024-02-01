@@ -74,7 +74,7 @@ const ForgotPassword = () => {
   }, [showOtpField]); // Re-run the effect when showOtpField changes
 
   return (
-    <div>
+    <div className='forgot-password'>
       <div className="forgotmainpage">
         <div className="lock-icon">
           <FcLock className="icon-widthlock" />

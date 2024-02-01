@@ -34,7 +34,7 @@ const ResetPassword = () => {
 
 
   return (
-    <div>
+    <div className='reset-maindiv'>
       <div className='resetmain'>
         <div className='reset-text'>
           Reset Password
