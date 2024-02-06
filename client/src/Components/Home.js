@@ -196,7 +196,6 @@ const Home = () => {
         );
 
         if (response.status === 200) {
-          // Update the state to remove the deleted comment
           setAllPosts((prevPosts) => {
             return prevPosts.map((post) => {
               if (post._id === postId) {
@@ -224,8 +223,6 @@ const Home = () => {
   };
 
   const handleEditComment = async (commentId, currentText, postId) => {
-    // const newText = prompt("Edit your comment:", currentText);
-
     setIsEditing(true);
     setEditing({
       commentId,
@@ -234,7 +231,6 @@ const Home = () => {
     });
 
     setComment((prevComments) => {
-      // Use the postId as the key in the state object
       return {
         ...prevComments,
         [postId]: currentText,
@@ -250,7 +246,6 @@ const Home = () => {
   };
 
   const handleUpdateComment = async (postId) => {
-    // const newText = prompt("Edit your comment:", currentText);
     const { commentId } = editing;
     const newText = comment[postId];
 
@@ -265,14 +260,12 @@ const Home = () => {
         );
 
         if (response.status === 200) {
-          // Update the state to reflect the edited comment
           setAllPosts((prevPosts) => {
             return prevPosts.map((post) => {
               if (post._id === postId) {
                 return {
                   ...post,
                   comments: post.comments.map((comment) => {
-                    // Update the edited comment
                     if (comment._id === commentId) {
                       return {
                         ...comment,
@@ -286,7 +279,6 @@ const Home = () => {
               return post;
             });
           });
-          //poiuy
           setComment("");
           setIsEditing(false);
           toast.success("Comment edited successfully");
@@ -329,26 +321,21 @@ const Home = () => {
   }, []);
 
   const generateBackgroundColor = (userInfo) => {
-    // Combine user information to create a unique identifier (you can customize this logic)
     const userIdentifier = userInfo
       ? userInfo._id || userInfo.email || userInfo.username
       : null;
-
-    // Generate a hash based on the user identifier
     const hash = userIdentifier
       ? userIdentifier
           .split("")
           .reduce((acc, char) => acc + char.charCodeAt(0), 0)
       : 0;
 
-    // Use the hash to select a color from a predefined array
     const colors = ["#808000", "#008080", "#800080", "#800000", "#008000"];
     const colorIndex = Math.abs(hash) % colors.length;
 
     return colors[colorIndex];
   };
 
-  // window.alert((window.location.href));
 
   return (
     <>
@@ -365,7 +352,6 @@ const Home = () => {
                   (user) => user._id === post.Author?.UserId
                 );
 
-                // Check if user is found
                 if (user) {
                   return (
                     <div className="post" key={post.id}>
@@ -551,7 +537,6 @@ const Home = () => {
                               />
 
                               {isEditing ? (
-                                // Render the "Update" button when editing
                                 <button
                                   type="button"
                                   onClick={() => handleUpdateComment(post._id)}
@@ -559,7 +544,6 @@ const Home = () => {
                                   Update
                                 </button>
                               ) : (
-                                // Render the "Post" button when not editing
                                 <button
                                   type="button"
                                   onClick={(e) =>
@@ -576,7 +560,6 @@ const Home = () => {
                                   const commentedUser = allUsers.find(
                                     (user) => user._id === comment.postedBy
                                   );
-                                  // Check if commentedUser is defined before rendering
                                   if (commentedUser) {
                                     return (
                                       <div
@@ -710,7 +693,6 @@ const Home = () => {
                                       </div>
                                     );
                                   } else {
-                                    // Handle the case where commentedUser is undefined
                                     return (
                                       <div
                                         key={comment._id}
@@ -729,7 +711,6 @@ const Home = () => {
                     </div>
                   );
                 } else {
-                  // Handle the case when user is not found
                   return (
                     <div className="post" key={post.id}>
                       <p>User not found</p>

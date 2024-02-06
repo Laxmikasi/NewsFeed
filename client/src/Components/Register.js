@@ -22,19 +22,12 @@ const Register = () => {
     email: '',
     password: '',
     confirmpassword: '',
-  });
-//   const [showPassword, setShowPassword] = useState(false);
-
-
-  
+  });  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-//   const handleTogglePassword = () => {
-//     setShowPassword(!showPassword);
-//   };
 const validatePassword = (password) => {
   // Password should contain at least 8 characters, 1 uppercase, 1 special character, and 1 number
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%*?&]{8,}$/;

@@ -25,36 +25,22 @@ const Login = () => {
     e.preventDefault();  
     try {
       const response = await axios.post(`${BASE_URL}/api/login`,formData);
-      // const email = data.email;
     
       if (response.status === 200) {  
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
-        // localStorage.setItem('email' , email)
-
-        // Display success message using toast.success
-        toast.success('Login successful');
-  
-        // Set the user data using the login function
-        // login({ token, email }); 
-  
-        // Navigate to Home page after successful login
-        
+        toast.success('Login successful');      
       } else {
-        // Display error message for non-200 response status using toast.error
         toast.error('Invalid credentials', { position: 'top-center', autoClose: 3000 });
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
-        // Display specific error message from the server using toast.error
         toast.error(error.response.data.error, { position: 'top-center', autoClose: 3000 });
       } else {
         console.error("Error occurred during login:", error);
+          toast.error('An error occurred', { position: 'top-center', autoClose: 3000 });
   
-        // Display a more generic error message for other errors using toast.error
-        toast.error('An error occurred', { position: 'top-center', autoClose: 3000 });
-  
-        console.log(error); // Log the error object to the console for debugging
+        console.log(error);
       }
     }
   };
